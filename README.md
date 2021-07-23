@@ -110,7 +110,7 @@ In this API I will focus in analysis data from different blockchain's (BTC, ETH 
     - [ ] calls option
     - [ ] puts option
 - SuperTrend Indicator in Python
-- Stock Market and Bitcoin Price Relationship — Python Analysis
+- Stock Market and Bitcoin Price Relationship — Python Analysis - [stocks_to_BTC.ipynb](whale-alert/notebooks/stocks_to_BTC.ipynb)
 
 ## Resource
 
