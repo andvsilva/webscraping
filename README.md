@@ -89,10 +89,8 @@ In this API I will focus in analysis data from different blockchain's (BTC, ETH 
     NOTE: Here we are using the package ```notify2``` ( a package to display desktop notifications on Linux)
           [notify2 API documentation](https://notify2.readthedocs.io/en/latest/) to install ```pip install notify2``` to nofity the high value moved in one transaction by whale.
 
-    
 
-
-- Storage information to analysis the market and to search for standard or metrics to evaluate the ecosystem.
+- Storage information to analysis the market and to search for standard or metrics to evaluate the ecosystem (**Work in Progress**).
     - transaction (example):
         ```bash
         blockchain: ethereum
@@ -107,7 +105,17 @@ In this API I will focus in analysis data from different blockchain's (BTC, ETH 
         amount_usd: 1264570.1
         transaction_count: 1
       ```
+
+- Black Scholes Model in Python for BTC
+    - [ ] calls option
+    - [ ] puts option
+- SuperTrend Indicator in Python
+- Stock Market and Bitcoin Price Relationship — Python Analysis
+
 ## Resource
 
 - [Whale Alert API Documentation](https://docs.whale-alert.io/?_ga=2.18753593.1286745348.1624886898-1875508501.1610310849#introduction)
 - [Whale Alert GitHub](https://github.com/stuianna/whaleAlert)
+- [Black Scholes Model in Python for Predicting Options Premiums](https://medium.com/swlh/calculating-option-premiums-using-the-black-scholes-model-in-python-e9ed227afbee)
+- [A Step-By-Step Guide to Implementing the SuperTrend Indicator in Python](https://medium.com/codex/step-by-step-implementation-of-the-supertrend-indicator-in-python-656aa678c111)
+- [Stock Market and Bitcoin Price Relationship — Python Analysis](https://towardsdatascience.com/stock-market-and-bitcoin-price-relationship-python-analysis-f39f992201c7)

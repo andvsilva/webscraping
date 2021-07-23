@@ -78,7 +78,7 @@ count_exchange_to_unknown = 0
 count_exchange_to_exchange = 0
 count_unknown_to_exchange = 0
 
-list_limits = [2000, 1000]
+list_limits = [4000]
 list_symbols = ['BTC', 'ETH']
 
 def whaleInfo(amount_currency, symbol_currency):
@@ -174,4 +174,4 @@ while True:
                 i = i + 1
 
 
-    time.sleep(8)
+    time.sleep(6)
