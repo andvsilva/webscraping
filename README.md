@@ -106,11 +106,11 @@ In this API I will focus in analysis data from different blockchain's (BTC, ETH 
         transaction_count: 1
       ```
 
-- Black Scholes Model in Python for BTC
+- Black Scholes Model in Python for BTC (**Not yet**)
     - [ ] calls option
     - [ ] puts option
-- SuperTrend Indicator in Python
-- Stock Market and Bitcoin Price Relationship — Python Analysis - [stocks_to_BTC.ipynb](whale-alert/notebooks/stocks_to_BTC.ipynb)
+- SuperTrend Indicator in Python (**Work in Progress**)
+- Stock Market and Bitcoin Price Relationship — Python Analysis - [stocks_to_BTC.ipynb](whale-alert/notebooks/stocks_to_BTC.ipynb) (**Work in Progress**)
 
 ## Resource
 
