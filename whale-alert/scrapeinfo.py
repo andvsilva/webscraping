@@ -78,10 +78,10 @@ count_exchange_to_unknown = 0
 count_exchange_to_exchange = 0
 count_unknown_to_exchange = 0
 
-list_limits = [4000]
+list_limits = [500]
 list_symbols = ['BTC', 'ETH']
 
-def whaleInfo(amount_currency, symbol_currency):
+def whaleInfo(amount_currency, symbol_currency, id):
     for ilist_symbol in list_symbols:
         if symbol_currency == f'{ilist_symbol}':
             for ilist_limit in list_limits:
@@ -89,7 +89,7 @@ def whaleInfo(amount_currency, symbol_currency):
                     notify(price)
                     print('***********************************************************************************')
                     print('>>>>>>>>>> WARNING: WHALE MOVING FUNDS <<<<<<<<<<<<<')
-                    print(f'MORE THAN {ilist_limit} {ilist_symbol} MOVED')
+                    print(f'MORE THAN {ilist_limit} {ilist_symbol} MOVED - ID: {id}')
                     print('***********************************************************************************')
 
 while True:
@@ -106,7 +106,6 @@ while True:
     if (success == 'False'):
         print("exit now, something is wrong.")
         sys.exit()
-
 
     # convert list of dict to dict
     dict_transactions = dict((key,d[key]) for d in transactions for key in d)
@@ -143,7 +142,7 @@ while True:
 
             # wallet: unknown to unknown
             if(from_owner_type == "unknown" and to_owner_type == "unknown"):
-                whaleInfo(amount_currency, symbol_currency)
+                whaleInfo(amount_currency, symbol_currency, id)
                 print(f'#{i} {bcolors.HEADER}{dict_transactions[key]}{bcolors.ENDC}: {bcolors.OKGREEN}{amount_currency} {symbol_currency}{bcolors.ENDC} ({amount_currency_usd} USD): from {bcolors.HEADER}{from_owner_type}({from_owner}){bcolors.ENDC} to {bcolors.HEADER}{to_owner_type}({to_owner}){bcolors.ENDC} id: {id}, {date_time}')
                 count_unknown_to_unknown = count_unknown_to_unknown + 1
                 print(f"Number of transactions (unknown to unknown).............: {count_unknown_to_unknown}")
@@ -151,7 +150,7 @@ while True:
             
             # wallet: exchange to unknown
             if(from_owner_type == "exchange" and to_owner_type == "unknown"):
-                whaleInfo(amount_currency, symbol_currency)
+                whaleInfo(amount_currency, symbol_currency, id)
                 print(f'#{i} {bcolors.HEADER}{dict_transactions[key]}{bcolors.ENDC}: {bcolors.OKGREEN}{amount_currency} {symbol_currency}{bcolors.ENDC} ({amount_currency_usd} USD): from {bcolors.OKGREEN}{from_owner_type}({from_owner}){bcolors.ENDC} to {bcolors.OKGREEN}{to_owner_type}({to_owner}){bcolors.ENDC} id: {id}, {date_time}')
                 count_exchange_to_unknown = count_exchange_to_unknown + 1
                 print(f"Number of transactions (exchange to unknown).............: {count_exchange_to_unknown}")
@@ -159,7 +158,7 @@ while True:
 
             # wallet: exchange to exchange
             if(from_owner_type == "exchange" and to_owner_type == "exchange"):
-                whaleInfo(amount_currency, symbol_currency)
+                whaleInfo(amount_currency, symbol_currency, id)
                 print(f'#{i} {bcolors.HEADER}{dict_transactions[key]}{bcolors.ENDC}: {bcolors.OKGREEN}{amount_currency} {symbol_currency}{bcolors.ENDC} ({amount_currency_usd} USD): from {bcolors.OKGREEN}{from_owner_type}({from_owner}){bcolors.ENDC} to {bcolors.OKGREEN}{to_owner_type}({to_owner}){bcolors.ENDC} id: {id}, {date_time}')
                 count_exchange_to_exchange = count_exchange_to_exchange + 1
                 print(f"Number of transactions (exchange to exchange).............: {count_exchange_to_exchange}")
@@ -167,7 +166,7 @@ while True:
 
             # wallet: unknown to exchange
             if(from_owner_type == "unknown" and to_owner_type == "exchange"):
-                whaleInfo(amount_currency, symbol_currency)
+                whaleInfo(amount_currency, symbol_currency, id)
                 print(f'#{i} {bcolors.HEADER}{dict_transactions[key]}{bcolors.ENDC}: {bcolors.OKGREEN}{amount_currency} {symbol_currency}{bcolors.ENDC} ({amount_currency_usd} USD): from {bcolors.FAIL}{from_owner_type}({from_owner}){bcolors.ENDC} to {bcolors.FAIL}{to_owner_type}({to_owner}){bcolors.ENDC} id: {id}, {date_time}')
                 count_unknown_to_exchange = count_unknown_to_exchange + 1
                 print(f"Number of transactions (unknown to exchange).............: {count_unknown_to_exchange}")
