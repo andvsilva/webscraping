@@ -23,9 +23,9 @@ whale = WhaleAlert()
 
 # Building a desktop notification tool for Linux using python
 # https://www.codementor.io/@dushyantbgs/building-a-desktop-notification-tool-using-python-bcpya9cwh
-def notify(price):
+def notify(price, symbol_currency, date_time):
 
-    ICON_PATH = "628px-Ethereum_logo_2014.svg.png"
+    ICON_PATH = "../images/btc.jpg" # This is not working, FIXME, I do not know why.
 
     # initialise the d-bus connection
     notify2.init("Cryptocurrency reach the price")
@@ -34,10 +34,6 @@ def notify(price):
     n = notify2.Notification("Crypto Notifier", icon = ICON_PATH)
 
     # Set the urgency level
-    # options:
-    # -> notify2.URGENCY_LOW
-    # -> notify2.URGENCY_NORMAL
-    # -> notify2.URGENCY_HIGH
     n.set_urgency(notify2.URGENCY_NORMAL)
 
     # Set the timeout
@@ -46,11 +42,10 @@ def notify(price):
     result = str(price)
 
     # Update the content
-    n.update("Current price USD", result)
+    n.update(f"1 {symbol_currency} in USD date: {date_time}", result)
 
     # Show the notification
     n.show()
-
 
 # To print colored text in python 
 class bcolors:
@@ -73,20 +68,33 @@ transaction_count_limit = 1
 
 id=0
 i=0
-count_unknown_to_unknown = 0
-count_exchange_to_unknown = 0
-count_exchange_to_exchange = 0
-count_unknown_to_exchange = 0
 
-list_limits = [500]
+list_cols = ['unknown-unknown',
+             'unknown-exchange',
+             'exchange-unknown',
+             'exchange-exchange'
+            ]
+
+dict_count_from_tos = dict()
+dict_amount_usd_from_tos = dict()
+
+for col in list_cols:
+    dict_count_from_tos[col] = 0
+    dict_amount_usd_from_tos[col] = 0 
+
+df_count_from_tos = pd.DataFrame(columns=list_cols)
+df_count_from_tos['']=['counting','amount_usd']
+df_count_from_tos = df_count_from_tos.set_index("")
+
+list_limits = [100]
 list_symbols = ['BTC', 'ETH']
 
-def whaleInfo(amount_currency, symbol_currency, id):
+def whaleInfo(amount_currency, symbol_currency, id, date_time):
     for ilist_symbol in list_symbols:
         if symbol_currency == f'{ilist_symbol}':
             for ilist_limit in list_limits:
                 if( amount_currency >= ilist_limit):
-                    notify(price)
+                    notify(price, symbol_currency, date_time)
                     print('***********************************************************************************')
                     print('>>>>>>>>>> WARNING: WHALE MOVING FUNDS <<<<<<<<<<<<<')
                     print(f'MORE THAN {ilist_limit} {ilist_symbol} MOVED - ID: {id}')
@@ -135,42 +143,28 @@ while True:
             # this is to get diferent transactions
             if(id == dict_transactions['id']):
                 continue
-
+            
+            # tracking the transaction by the ID
             id = dict_transactions['id']
 
             price = round(amount_currency_usd/amount_currency, 2) # USD price cryptocurrency
 
-            # wallet: unknown to unknown
-            if(from_owner_type == "unknown" and to_owner_type == "unknown"):
-                whaleInfo(amount_currency, symbol_currency, id)
-                print(f'#{i} {bcolors.HEADER}{dict_transactions[key]}{bcolors.ENDC}: {bcolors.OKGREEN}{amount_currency} {symbol_currency}{bcolors.ENDC} ({amount_currency_usd} USD): from {bcolors.HEADER}{from_owner_type}({from_owner}){bcolors.ENDC} to {bcolors.HEADER}{to_owner_type}({to_owner}){bcolors.ENDC} id: {id}, {date_time}')
-                count_unknown_to_unknown = count_unknown_to_unknown + 1
-                print(f"Number of transactions (unknown to unknown).............: {count_unknown_to_unknown}")
-                i = i + 1
+            # from_to: unknown-unknown (1), unknown-exchange (2), exchange-unknown (3), exchange-exchange (4)
+            from_tos = ['unknown','exchange']
+
+            for ifrom_to in from_tos:
+                for jfrom_to in from_tos:
+                    if(from_owner_type == ifrom_to and to_owner_type == jfrom_to):
+                        whaleInfo(amount_currency, symbol_currency, id, date_time)
+                        print(f'#{i} {bcolors.HEADER}{dict_transactions[key]}{bcolors.ENDC}: {bcolors.OKGREEN}{amount_currency} {symbol_currency}{bcolors.ENDC} ({amount_currency_usd} USD): from {bcolors.HEADER}{from_owner_type}({from_owner}){bcolors.ENDC} to {bcolors.HEADER}{to_owner_type}({to_owner}){bcolors.ENDC} id: {id}, {date_time}')
+                        
+                        dict_count_from_tos[f'{ifrom_to}-{jfrom_to}'] += 1
+                        dict_amount_usd_from_tos[f'{ifrom_to}-{jfrom_to}'] = dict_amount_usd_from_tos[f'{ifrom_to}-{jfrom_to}'] + amount_currency_usd
+
+                        print(f"Number of transactions ({ifrom_to} to {jfrom_to}).............: {dict_count_from_tos[f'{ifrom_to}-{jfrom_to}']}")
+                        i += 1
+                        df_count_from_tos.loc['counting',f'{ifrom_to}-{jfrom_to}'] = dict_count_from_tos[f'{ifrom_to}-{jfrom_to}']
+                        df_count_from_tos.loc['amount_usd',f'{ifrom_to}-{jfrom_to}'] = dict_amount_usd_from_tos[f'{ifrom_to}-{jfrom_to}']
             
-            # wallet: exchange to unknown
-            if(from_owner_type == "exchange" and to_owner_type == "unknown"):
-                whaleInfo(amount_currency, symbol_currency, id)
-                print(f'#{i} {bcolors.HEADER}{dict_transactions[key]}{bcolors.ENDC}: {bcolors.OKGREEN}{amount_currency} {symbol_currency}{bcolors.ENDC} ({amount_currency_usd} USD): from {bcolors.OKGREEN}{from_owner_type}({from_owner}){bcolors.ENDC} to {bcolors.OKGREEN}{to_owner_type}({to_owner}){bcolors.ENDC} id: {id}, {date_time}')
-                count_exchange_to_unknown = count_exchange_to_unknown + 1
-                print(f"Number of transactions (exchange to unknown).............: {count_exchange_to_unknown}")
-                i = i + 1
-
-            # wallet: exchange to exchange
-            if(from_owner_type == "exchange" and to_owner_type == "exchange"):
-                whaleInfo(amount_currency, symbol_currency, id)
-                print(f'#{i} {bcolors.HEADER}{dict_transactions[key]}{bcolors.ENDC}: {bcolors.OKGREEN}{amount_currency} {symbol_currency}{bcolors.ENDC} ({amount_currency_usd} USD): from {bcolors.OKGREEN}{from_owner_type}({from_owner}){bcolors.ENDC} to {bcolors.OKGREEN}{to_owner_type}({to_owner}){bcolors.ENDC} id: {id}, {date_time}')
-                count_exchange_to_exchange = count_exchange_to_exchange + 1
-                print(f"Number of transactions (exchange to exchange).............: {count_exchange_to_exchange}")
-                i = i + 1
-
-            # wallet: unknown to exchange
-            if(from_owner_type == "unknown" and to_owner_type == "exchange"):
-                whaleInfo(amount_currency, symbol_currency, id)
-                print(f'#{i} {bcolors.HEADER}{dict_transactions[key]}{bcolors.ENDC}: {bcolors.OKGREEN}{amount_currency} {symbol_currency}{bcolors.ENDC} ({amount_currency_usd} USD): from {bcolors.FAIL}{from_owner_type}({from_owner}){bcolors.ENDC} to {bcolors.FAIL}{to_owner_type}({to_owner}){bcolors.ENDC} id: {id}, {date_time}')
-                count_unknown_to_exchange = count_unknown_to_exchange + 1
-                print(f"Number of transactions (unknown to exchange).............: {count_unknown_to_exchange}")
-                i = i + 1
-
-
+            ic(df_count_from_tos)
     time.sleep(6)
