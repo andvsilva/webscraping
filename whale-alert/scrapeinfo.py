@@ -195,7 +195,7 @@ while True:
 
                         i += 1
             #ic(df_count_from_tos)
-            ic(database_txo)
+            #ic(database_txo)
             database_txo.to_csv('dataset/database_txo.csv')
             
     time.sleep(6)

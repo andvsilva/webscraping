@@ -1,11 +1,9 @@
-# Analysis data from Bitcointrade:
-# Using web scraping to get the data.
-# In this analysis:
-#   - price buy/sell in the last 24 hours.
-#   - book buyers/sellers
- 
-# Using this data from web scrape, I will
-# compare the data info between buyers/sellers
+# This script make one analysis of the 
+# InFlow and OutFlow in exchanges (From-To)
+# -> unknown-unknown
+# -> unknwon-exchange
+# -> exchange-exchange
+# -> exchange-unknown
 
 # Author : Andre Vieira da Silva 2020-11-02
 
@@ -29,31 +27,19 @@ def update(i):
     ax.set_title(f'Inflow versus OutFlow', fontsize = 20)
     ax.legend(loc = 'upper left', prop = {'size': 12})
     ax.set_xlabel('From to', fontsize = 16)
-    ax.set_ylabel('Frequency (%)', fontsize = 16)
-    ax.set_ylim(0, 100)
-    plt.xticks(rotation=10)
+    ax.set_ylabel('Counting', fontsize = 16)
+    ax.set_ylim([0, 100])
+    scale_factor = 1
     
     total_cases = database_txo.shape[0]
     
     for p in ax.patches:
-       ax.annotate('{:.2f} %'.format((p.get_height()/total_cases)*100), (p.get_x()+0.25, p.get_height()+0.01))
-       
+       ax.annotate('{:.2f} % ({:.2f})'.format((p.get_height()/total_cases)*100, p.get_height()), (p.get_x()-0.1, p.get_height()+0.2))
+
+    plt.xticks(rotation=10)
     plt.savefig("../images/countplot_from_to.pdf", dpi=150)
        
 
 ani = animation.FuncAnimation(fig, update, frames = 10)
-#ani.save('test.mp4', dpi=200, fps=1)
 
 plt.show()
-
-
-# count plot on single categorical variable
-#plt.xticks(rotation=15)
-#plt.ylim(0,15)
-#plt.xlabel('From to')
-#plt.ylabel('Frequency')
-## Show the plot
-#plt.show(block=False)
-#plt.pause(20)
-#plt.close()
-#plt.pause(20)
