@@ -28,14 +28,29 @@ def update(i):
     ax.legend(loc = 'upper left', prop = {'size': 12})
     ax.set_xlabel('From to', fontsize = 16)
     ax.set_ylabel('Counting', fontsize = 16)
-    ax.set_ylim([0, 100])
-    scale_factor = 1
     
     total_cases = database_txo.shape[0]
     
+    heights = {}
+    
+    iheight = 0
+    
     for p in ax.patches:
-       ax.annotate('{:.2f} % ({:.2f})'.format((p.get_height()/total_cases)*100, p.get_height()), (p.get_x()-0.1, p.get_height()+0.2))
-
+            
+        ax.annotate('{:.2f} % ({:.2f})'.format((p.get_height()/total_cases)*100, p.get_height()), (p.get_x()-0.1, p.get_height()+0.2))
+        heights[iheight] = p.get_height()
+        iheight += 1
+        
+    major_height = heights[0]
+    
+    scale_size = 1.8
+    
+    for iheight in heights:
+        if(heights[iheight] >= major_height):
+            major_height = heights[iheight]
+            
+    ax.set_ylim([0, major_height*scale_size])
+    
     plt.xticks(rotation=10)
     plt.savefig("../images/countplot_from_to.pdf", dpi=150)
        
