@@ -19,6 +19,10 @@ from pprint import pprint  # For formatted dictionary printing
 from whalealert.whalealert import WhaleAlert
 import notify2
 import sys
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+
 whale = WhaleAlert()
 
 # Building a desktop notification tool for Linux using python
@@ -42,7 +46,7 @@ def notify(price, symbol_currency, date_time):
     result = str(price)
 
     # Update the content
-    n.update(f"1 {symbol_currency} in USD date: {date_time}", result)
+    n.update(f"1 {symbol_currency} in USD - {date_time}", result)
 
     # Show the notification
     n.show()
@@ -85,6 +89,20 @@ for col in list_cols:
 df_count_from_tos = pd.DataFrame(columns=list_cols)
 df_count_from_tos['']=['counting','amount_usd']
 df_count_from_tos = df_count_from_tos.set_index("")
+
+for irow in ['counting','amount_usd']:
+    for jcol in list_cols:
+        df_count_from_tos.loc[irow,jcol] = 0
+
+txo_columns = ['blockchain',
+               'amount_coin',
+               'amount_usd',
+               'from_to',
+               'id',
+               'date']
+
+database_txo = pd.DataFrame(columns=txo_columns)
+
 
 list_limits = [100]
 list_symbols = ['BTC', 'ETH']
@@ -140,6 +158,10 @@ while True:
             # amount USD
             amount_currency_usd = dict_transactions['amount_usd']
 
+            database_txo.loc[i,'blockchain'] = symbol_currency
+            database_txo.loc[i,'amount_coin'] = amount_currency
+            database_txo.loc[i,'amount_usd'] = amount_currency_usd
+
             # this is to get diferent transactions
             if(id == dict_transactions['id']):
                 continue
@@ -162,9 +184,18 @@ while True:
                         dict_amount_usd_from_tos[f'{ifrom_to}-{jfrom_to}'] = dict_amount_usd_from_tos[f'{ifrom_to}-{jfrom_to}'] + amount_currency_usd
 
                         print(f"Number of transactions ({ifrom_to} to {jfrom_to}).............: {dict_count_from_tos[f'{ifrom_to}-{jfrom_to}']}")
-                        i += 1
+                        
                         df_count_from_tos.loc['counting',f'{ifrom_to}-{jfrom_to}'] = dict_count_from_tos[f'{ifrom_to}-{jfrom_to}']
                         df_count_from_tos.loc['amount_usd',f'{ifrom_to}-{jfrom_to}'] = dict_amount_usd_from_tos[f'{ifrom_to}-{jfrom_to}']
+
+
+                        database_txo.loc[i,'from_to'] = f'{ifrom_to}' + '-' + f'{jfrom_to}'
+                        database_txo.loc[i,'id'] = id
+                        database_txo.loc[i,'date'] = date_time
+
+                        i += 1
+            #ic(df_count_from_tos)
+            ic(database_txo)
+            database_txo.to_csv('dataset/database_txo.csv')
             
-            ic(df_count_from_tos)
     time.sleep(6)
