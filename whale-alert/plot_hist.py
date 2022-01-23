@@ -38,7 +38,7 @@ def update(i):
     for p in ax.patches:
        ax.annotate('{:.2f} %'.format((p.get_height()/total_cases)*100), (p.get_x()+0.25, p.get_height()+0.01))
        
-    plt.savefig("images/countplot_from_to.pdf", dpi=150)
+    plt.savefig("../images/countplot_from_to.pdf", dpi=150)
        
 
 ani = animation.FuncAnimation(fig, update, frames = 10)
