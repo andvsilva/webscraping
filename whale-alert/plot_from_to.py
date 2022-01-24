@@ -14,18 +14,31 @@ import seaborn as sns
 import matplotlib
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
+from icecream import ic
 
 sns.set_theme(style="darkgrid")
 
 fig, ax = plt.subplots(figsize = (7, 6))
-fig.subplots_adjust(top = 0.99, right = 0.85, bottom = 0.2, left = 0.12)
+fig.subplots_adjust(top = 0.89, right = 0.85, bottom = 0.2, left = 0.12)
     
 def update(i):
     database_txo = pd.read_csv('dataset/database_txo.csv')
+    
+    # BTC only
+    database_txo_btc = database_txo.loc[(database_txo['blockchain'] == 'BTC')]
+    
+    for i in database_txo_btc.index:
+        database_txo_btc.at[i, "from_to"] += ' - BTC'
+    
+    database_txo_btc = database_txo_btc.drop(columns=['Unnamed: 0'])
+    
+    database_txo = database_txo.append(database_txo_btc)
+    
     ax.cla()
     sns.countplot(x ='from_to', hue = "from_to", data = database_txo)
-    ax.set_title(f'Inflow versus OutFlow', fontsize = 20)
+    ax.set_title(f'Inflow versus OutFlow', fontsize = 15)
     ax.legend(loc = 'upper left', prop = {'size': 12})
+    ax.set_xticklabels(ax.get_xticks(), size = 0)
     ax.set_xlabel('From to', fontsize = 16)
     ax.set_ylabel('Counting', fontsize = 16)
     
