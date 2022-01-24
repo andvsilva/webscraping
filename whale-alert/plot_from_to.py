@@ -18,8 +18,6 @@ import matplotlib.animation as animation
 from icecream import ic
 import requests
 
-data_BTC = requests.get('https://production.api.coindesk.com/v1/currency/ticker?currencies=BTC').json()
-
 sns.set_theme(style="darkgrid")
 
 fig, ax = plt.subplots(figsize = (10, 7))
@@ -32,6 +30,8 @@ def update(i):
     
     database_txo = pd.read_csv('dataset/database_txo.csv')
     
+    # get BTC price in USD
+    data_BTC = requests.get('https://production.api.coindesk.com/v1/currency/ticker?currencies=BTC').json()
     price_btc = round(data_BTC['data']['currency']['BTC']['quotes']['USD']['price'], 2)
     
     database_txo= database_txo.drop(columns=['amount_coin','amount_usd','id','date'])
@@ -40,12 +40,23 @@ def update(i):
     database_txo_btc = database_txo.loc[(database_txo['blockchain'] == 'BTC')]
     database_txo_eth = database_txo.loc[(database_txo['blockchain'] == 'ETH')]
     
+    for i in database_txo.index:
+        if(isinstance(database_txo.at[i, "from_to"], float)):
+            continue
+        else:
+            database_txo.at[i, "from_to"] += ' - ALL coins'
     
     for i in database_txo_btc.index:
-        database_txo_btc.at[i, "from_to"] += ' - BTC'
+        if(isinstance(database_txo_btc.at[i, "from_to"], float)):
+            continue
+        else:
+            database_txo_btc.at[i, "from_to"] += ' - BTC'
         
     for i in database_txo_eth.index:
-        database_txo_eth.at[i, "from_to"] += ' - ETH'
+        if(isinstance(database_txo_eth.at[i, "from_to"], float)):
+            continue
+        else:
+            database_txo_eth.at[i, "from_to"] += ' - ETH'
     
     database_txo_btc = database_txo_btc.drop(columns=['Unnamed: 0'])
     database_txo_eth = database_txo_eth.drop(columns=['Unnamed: 0'])
@@ -55,7 +66,7 @@ def update(i):
     
     ax.cla()
     sns.countplot(x ='from_to', hue = "from_to", data = database_txo)
-    ax.set_title('Inflow versus OutFlow', fontsize = 15, color='blue')
+    ax.set_title('InFlow versus OutFlow - Transactions', fontsize = 15, color='blue')
     ax.legend(loc = 'upper left', prop = {'size': 11}, ncol=2)
     ax.set_xticklabels(ax.get_xticks(), size = 0)
     ax.set_xlabel('From to', fontsize = 16)
@@ -84,8 +95,8 @@ def update(i):
     ax.set_ylim([0, major_height*scale_size])
     
     plt.text(8.3, major_height+70, '@andvsilva_', dict(size=15))
-    plt.text(8.3, major_height+60, '@whale_alert', dict(size=15))
-    plt.text(2, major_height, f'{now}    1 BTC - ${price_btc} USD', dict(size=15), color = 'red')
+    #plt.text(8.3, major_height+60, '@whale_alert', dict(size=15))
+    plt.text(1.6, major_height, f'{now}    1 BTC - ${price_btc} USD', dict(size=16), color = 'red')
     plt.xticks(rotation=10)
     plt.grid(True)
     plt.savefig("../images/countplot_from_to.pdf", dpi=150)
