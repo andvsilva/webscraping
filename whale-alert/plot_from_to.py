@@ -55,7 +55,7 @@ def update(i):
     
     ax.cla()
     sns.countplot(x ='from_to', hue = "from_to", data = database_txo)
-    ax.set_title(f'{now}  Inflow versus OutFlow - 1 BTC - {price_btc} USD', fontsize = 15, color='blue')
+    ax.set_title('Inflow versus OutFlow', fontsize = 15, color='blue')
     ax.legend(loc = 'upper left', prop = {'size': 11}, ncol=2)
     ax.set_xticklabels(ax.get_xticks(), size = 0)
     ax.set_xlabel('From to', fontsize = 16)
@@ -83,7 +83,11 @@ def update(i):
             
     ax.set_ylim([0, major_height*scale_size])
     
+    plt.text(8.3, major_height+70, '@andvsilva_', dict(size=15))
+    plt.text(8.3, major_height+60, '@whale_alert', dict(size=15))
+    plt.text(2, major_height, f'{now}    1 BTC - ${price_btc} USD', dict(size=15), color = 'red')
     plt.xticks(rotation=10)
+    plt.grid(True)
     plt.savefig("../images/countplot_from_to.pdf", dpi=150)
     plt.savefig("../images/countplot_from_to.png", dpi=150)
        
