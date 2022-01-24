@@ -23,6 +23,7 @@ data_BTC = requests.get('https://production.api.coindesk.com/v1/currency/ticker?
 sns.set_theme(style="darkgrid")
 
 fig, ax = plt.subplots(figsize = (10, 7))
+fig.canvas.manager.set_window_title("On-Chain Analysis")
 fig.subplots_adjust(top = 0.93, right = 0.9, bottom = 0.1, left = 0.1)
     
 def update(i):
