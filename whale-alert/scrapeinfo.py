@@ -130,11 +130,18 @@ while True:
     success, transactions, status = whale.get_transactions(start_time, api_key=api_key, limit=transaction_count_limit)
 
     if (success == 'False'):
-        print("exit now, something is wrong.")
+        print("exit now, something is wrong with the request from the Whale API")
         sys.exit()
 
     # convert list of dict to dict
     dict_transactions = dict((key,d[key]) for d in transactions for key in d)
+    
+    # If the dictionary does not have the info
+    # sleep for 10 seconds and try the request again.
+    if(len(dict_transactions) != 11):
+        time.sleep(10)
+        print(f"dictionary : {dict_transactions}")
+        continue
 
     # loop in information from one transaction
     for key in dict_transactions:
