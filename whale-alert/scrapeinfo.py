@@ -22,8 +22,10 @@ import sys
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
+from colored import fore, back, style
 
 whale = WhaleAlert()
+WhaleFund = False
 
 # Building a desktop notification tool for Linux using python
 # https://www.codementor.io/@dushyantbgs/building-a-desktop-notification-tool-using-python-bcpya9cwh
@@ -104,20 +106,23 @@ txo_columns = ['blockchain',
 database_txo = pd.DataFrame(columns=txo_columns)
 
 
-list_limits = [100]
+list_limits = [1500]
 list_symbols = ['BTC', 'ETH']
 
-def whaleInfo(amount_currency, symbol_currency, id, date_time):
+def whaleInfo(amount_currency, symbol_currency, id, date_time, WhaleFund):
     for ilist_symbol in list_symbols:
         if symbol_currency == f'{ilist_symbol}':
             for ilist_limit in list_limits:
                 if( amount_currency >= ilist_limit):
                     notify(price, symbol_currency, date_time)
-                    print('***********************************************************************************')
+                    print('******************************************************************************************************')
                     print('>>>>>>>>>> WARNING: WHALE MOVING FUNDS <<<<<<<<<<<<<')
-                    print(f'MORE THAN {ilist_limit} {ilist_symbol} MOVED - ID: {id}')
-                    print('***********************************************************************************')
-
+                    print(fore.WHITE + back.RED + style.BOLD + f'>>>  {amount_currency} {ilist_symbol} MOVED - ID: {id}' + style.RESET)
+                    print('******************************************************************************************************')
+                    WhaleFund=True
+                    
+    return WhaleFund
+    
 while True:
     # Specify a single transaction from the last 10 minutes
     start_time = int(time.time() - 600)
@@ -135,13 +140,6 @@ while True:
 
     # convert list of dict to dict
     dict_transactions = dict((key,d[key]) for d in transactions for key in d)
-    
-    # If the dictionary does not have the info
-    # sleep for 10 seconds and try the request again.
-    if(len(dict_transactions) != 11):
-        time.sleep(10)
-        print(f"dictionary : {dict_transactions}")
-        continue
 
     # loop in information from one transaction
     for key in dict_transactions:
@@ -184,8 +182,14 @@ while True:
             for ifrom_to in from_tos:
                 for jfrom_to in from_tos:
                     if(from_owner_type == ifrom_to and to_owner_type == jfrom_to):
-                        whaleInfo(amount_currency, symbol_currency, id, date_time)
-                        print(f'#{i} {bcolors.HEADER}{dict_transactions[key]}{bcolors.ENDC}: {bcolors.OKGREEN}{amount_currency} {symbol_currency}{bcolors.ENDC} ({amount_currency_usd} USD): from {bcolors.HEADER}{from_owner_type}({from_owner}){bcolors.ENDC} to {bcolors.HEADER}{to_owner_type}({to_owner}){bcolors.ENDC} id: {id}, {date_time}')
+                        WFund = whaleInfo(amount_currency, symbol_currency, id, date_time, WhaleFund)
+                        
+                        if(WFund):
+                            print(fore.WHITE + back.RED + style.BOLD + f'#{i} {dict_transactions[key]}: {amount_currency} {symbol_currency} ({amount_currency_usd} USD){bcolors.ENDC}: from {bcolors.HEADER}{from_owner_type}({from_owner}) to {bcolors.HEADER}{to_owner_type}({to_owner}){bcolors.ENDC} id: {id}, {date_time}' + style.RESET)
+                            WhaleFund = False
+                        else:
+                            print(f'#{i} {bcolors.HEADER}{dict_transactions[key]}{bcolors.ENDC}: {bcolors.OKGREEN}{amount_currency} {symbol_currency}{bcolors.ENDC} ({amount_currency_usd} USD): from {bcolors.HEADER}{from_owner_type}({from_owner}){bcolors.ENDC} to {bcolors.HEADER}{to_owner_type}({to_owner}){bcolors.ENDC} id: {id}, {date_time}')
+                        
                         
                         dict_count_from_tos[f'{ifrom_to}-{jfrom_to}'] += 1
                         dict_amount_usd_from_tos[f'{ifrom_to}-{jfrom_to}'] = dict_amount_usd_from_tos[f'{ifrom_to}-{jfrom_to}'] + amount_currency_usd

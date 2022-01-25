@@ -96,7 +96,7 @@ def update(i):
     
     plt.text(8.3, major_height+70, '@andvsilva_', dict(size=15))
     #plt.text(8.3, major_height+60, '@whale_alert', dict(size=15))
-    plt.text(1.6, major_height, f'{now}    1 BTC - ${price_btc} USD', dict(size=16), color = 'red')
+    plt.text(1.6, major_height+7, f'{now}    1 BTC - ${price_btc} USD', dict(size=16), color = 'red')
     plt.xticks(rotation=10)
     plt.grid(True)
     plt.savefig("../images/countplot_from_to.pdf", dpi=150)
