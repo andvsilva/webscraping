@@ -82,7 +82,7 @@ def update(i):
     
     for p in ax.patches:
             
-        ax.annotate('{:.2f} ({:.2f} %)'.format(p.get_height(), (p.get_height()/total_cases)*100), (p.get_x()-0.1, p.get_height()+0.2), rotation=35)
+        ax.annotate('{:.2f} ({:.2f} %)'.format(p.get_height(), (p.get_height()/total_cases)*100), (p.get_x()-0.1, p.get_height()+0.2), rotation=45)
         heights[iheight] = p.get_height()
         iheight += 1
         

@@ -10,6 +10,9 @@ In this API I will focus in analysis data from different blockchain's (BTC, ETH 
     - [x] from unknown wallet to exchange
     - [x] from unknown wallet to unknown wallet
 
+    ![](gifs/from_to_txo.gif)
+    ![](gifs/from_to_txo_terminal.gif)
+
     **Output**:
     ```bash
     $ python scrapeinfo.py
