@@ -112,6 +112,14 @@ In this API I will focus in analysis data from different blockchain's (BTC, ETH 
 - SuperTrend Indicator in Python (**Work in Progress**)
 - Stock Market and Bitcoin Price Relationship — Python Analysis - [stocks_to_BTC.ipynb](whale-alert/notebooks/stocks_to_BTC.ipynb) (**Work in Progress**)
 
+```bash
+# requirements for this project.
+# requirements.txt
+pip3 freeze > requirements.txt
+
+# Install pre requirements, make the command below:
+$ pip3 install -r requirements.txt
+```
 ## Resource
 
 - [Whale Alert API Documentation](https://docs.whale-alert.io/?_ga=2.18753593.1286745348.1624886898-1875508501.1610310849#introduction)

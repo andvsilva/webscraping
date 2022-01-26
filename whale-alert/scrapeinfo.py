@@ -18,11 +18,16 @@ from datetime import datetime
 from pprint import pprint  # For formatted dictionary printing
 from whalealert.whalealert import WhaleAlert
 import notify2
+import os.path
 import sys
+import gc
+from sys import getsizeof
+import time
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 from colored import fore, back, style
+import toolkit as tool
 
 whale = WhaleAlert()
 WhaleFund = False
@@ -73,7 +78,7 @@ api_key = open("key_credencial.txt", "r").read()
 transaction_count_limit = 1
 
 id=0
-i=0
+index=0
 
 list_cols = ['unknown-unknown',
              'unknown-exchange',
@@ -99,12 +104,10 @@ for irow in ['counting','amount_usd']:
 txo_columns = ['blockchain',
                'amount_coin',
                'amount_usd',
+               'hash',
                'from_to',
                'id',
                'date']
-
-database_txo = pd.DataFrame(columns=txo_columns)
-
 
 list_limits = [1500]
 list_symbols = ['BTC', 'ETH']
@@ -124,6 +127,16 @@ def whaleInfo(amount_currency, symbol_currency, id, date_time, WhaleFund):
     return WhaleFund
     
 while True:
+    
+    database_txo = pd.DataFrame(columns=txo_columns)
+    
+    # save the metric calculated for each algorithm.
+    # check if the file exist, please.
+    if os.path.isfile('dataset/database_txo.csv'):
+        FileExist=True
+    else:
+        FileExist=False
+
     # Specify a single transaction from the last 10 minutes
     start_time = int(time.time() - 600)
 
@@ -159,13 +172,17 @@ while True:
             # symbol and amount currency
             symbol_currency = dict_transactions['symbol']
             amount_currency = dict_transactions['amount']
+            
+            # hash of the transaction
+            hash_txo = dict_transactions['hash']
 
             # amount USD
             amount_currency_usd = dict_transactions['amount_usd']
 
-            database_txo.loc[i,'blockchain'] = symbol_currency
-            database_txo.loc[i,'amount_coin'] = amount_currency
-            database_txo.loc[i,'amount_usd'] = amount_currency_usd
+            database_txo.loc[index,'blockchain'] = symbol_currency
+            database_txo.loc[index,'amount_coin'] = amount_currency
+            database_txo.loc[index,'amount_usd'] = amount_currency_usd
+            database_txo.loc[index,'hash'] = hash_txo
 
             # this is to get diferent transactions
             if(id == dict_transactions['id']):
@@ -185,10 +202,10 @@ while True:
                         WFund = whaleInfo(amount_currency, symbol_currency, id, date_time, WhaleFund)
                         
                         if(WFund):
-                            print(fore.WHITE + back.RED + style.BOLD + f'#{i} {dict_transactions[key]}: {amount_currency} {symbol_currency} ({amount_currency_usd} USD){bcolors.ENDC}: from {bcolors.HEADER}{from_owner_type}({from_owner}) to {bcolors.HEADER}{to_owner_type}({to_owner}){bcolors.ENDC} id: {id}, {date_time}' + style.RESET)
+                            print(fore.WHITE + back.RED + style.BOLD + f'#{index} {dict_transactions[key]}: {amount_currency} {symbol_currency} ({amount_currency_usd} USD){bcolors.ENDC}: from {bcolors.HEADER}{from_owner_type}({from_owner}) to {bcolors.HEADER}{to_owner_type}({to_owner}){bcolors.ENDC} id: {id}, {date_time}' + style.RESET)
                             WhaleFund = False
                         else:
-                            print(f'#{i} {bcolors.HEADER}{dict_transactions[key]}{bcolors.ENDC}: {bcolors.OKGREEN}{amount_currency} {symbol_currency}{bcolors.ENDC} ({amount_currency_usd} USD): from {bcolors.HEADER}{from_owner_type}({from_owner}){bcolors.ENDC} to {bcolors.HEADER}{to_owner_type}({to_owner}){bcolors.ENDC} id: {id}, {date_time}')
+                            print(f'#{index} {bcolors.HEADER}{dict_transactions[key]}{bcolors.ENDC}: {bcolors.OKGREEN}{amount_currency} {symbol_currency}{bcolors.ENDC} ({amount_currency_usd} USD): from {bcolors.HEADER}{from_owner_type}({from_owner}){bcolors.ENDC} to {bcolors.HEADER}{to_owner_type}({to_owner}){bcolors.ENDC} id: {id}, {date_time}')
                         
                         
                         dict_count_from_tos[f'{ifrom_to}-{jfrom_to}'] += 1
@@ -200,13 +217,20 @@ while True:
                         df_count_from_tos.loc['amount_usd',f'{ifrom_to}-{jfrom_to}'] = dict_amount_usd_from_tos[f'{ifrom_to}-{jfrom_to}']
 
 
-                        database_txo.loc[i,'from_to'] = f'{ifrom_to}' + '-' + f'{jfrom_to}'
-                        database_txo.loc[i,'id'] = id
-                        database_txo.loc[i,'date'] = date_time
+                        database_txo.loc[index,'from_to'] = f'{ifrom_to}' + '-' + f'{jfrom_to}'
+                        database_txo.loc[index,'id'] = id
+                        database_txo.loc[index,'date'] = date_time
 
-                        i += 1
+                        index += 1
+                        
             #ic(df_count_from_tos)
             #ic(database_txo)
-            database_txo.to_csv('dataset/database_txo.csv')
             
+            if(FileExist == False):
+                database_txo.to_csv('dataset/database_txo.csv')
+            else:
+                # saving the dataframe
+                database_txo.to_csv('dataset/database_txo.csv', mode='a', index=True, header=False)
+    
+    tool.release_memory(database_txo)
     time.sleep(6)

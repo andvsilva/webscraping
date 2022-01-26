@@ -5,7 +5,7 @@
 # -> exchange-exchange
 # -> exchange-unknown
 
-# Author : Andre Vieira da Silva 2020-11-02
+# Author: @andvsilva 2022-01-25
 
 # libraries
 import numpy as np
@@ -20,14 +20,16 @@ import requests
 
 sns.set_theme(style="darkgrid")
 
+# set figure, canvas and subplots
 fig, ax = plt.subplots(figsize = (10, 7))
 fig.canvas.manager.set_window_title("On-Chain Analysis")
 fig.subplots_adjust(top = 0.93, right = 0.9, bottom = 0.1, left = 0.1)
-    
+
+# update plot in a loop
 def update(i):
-    
     now = datetime.now()
     
+    # loading data feather format
     database_txo = pd.read_csv('dataset/database_txo.csv')
     
     # get BTC price in USD
@@ -40,23 +42,23 @@ def update(i):
     database_txo_btc = database_txo.loc[(database_txo['blockchain'] == 'BTC')]
     database_txo_eth = database_txo.loc[(database_txo['blockchain'] == 'ETH')]
     
-    for i in database_txo.index:
-        if(isinstance(database_txo.at[i, "from_to"], float)):
+    for idx in database_txo.index:
+        if(isinstance(database_txo.at[idx, "from_to"], float)):
             continue
         else:
-            database_txo.at[i, "from_to"] += ' - ALL coins'
+            database_txo.at[idx, "from_to"] += ' - ALL coins'
     
-    for i in database_txo_btc.index:
-        if(isinstance(database_txo_btc.at[i, "from_to"], float)):
+    for idx in database_txo_btc.index:
+        if(isinstance(database_txo_btc.at[idx, "from_to"], float)):
             continue
         else:
-            database_txo_btc.at[i, "from_to"] += ' - BTC'
+            database_txo_btc.at[idx, "from_to"] += ' - BTC'
         
-    for i in database_txo_eth.index:
-        if(isinstance(database_txo_eth.at[i, "from_to"], float)):
+    for idx in database_txo_eth.index:
+        if(isinstance(database_txo_eth.at[idx, "from_to"], float)):
             continue
         else:
-            database_txo_eth.at[i, "from_to"] += ' - ETH'
+            database_txo_eth.at[idx, "from_to"] += ' - ETH'
     
     database_txo_btc = database_txo_btc.drop(columns=['Unnamed: 0'])
     database_txo_eth = database_txo_eth.drop(columns=['Unnamed: 0'])
