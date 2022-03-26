@@ -28,12 +28,14 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from colored import fore, back, style
 import toolkit as tool
+import snoop
 
 whale = WhaleAlert()
 WhaleFund = False
 
 # Building a desktop notification tool for Linux using python
 # https://www.codementor.io/@dushyantbgs/building-a-desktop-notification-tool-using-python-bcpya9cwh
+#@snoop
 def notify(price, symbol_currency, date_time):
 
     ICON_PATH = "../images/btc.jpg" # This is not working, FIXME, I do not know why.
@@ -112,6 +114,7 @@ txo_columns = ['blockchain',
 list_limits = [1500]
 list_symbols = ['BTC', 'ETH']
 
+#@snoop
 def whaleInfo(amount_currency, symbol_currency, id, date_time, WhaleFund):
     for ilist_symbol in list_symbols:
         if symbol_currency == f'{ilist_symbol}':

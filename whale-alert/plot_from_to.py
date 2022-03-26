@@ -63,8 +63,11 @@ def update(i):
     database_txo_btc = database_txo_btc.drop(columns=['Unnamed: 0'])
     database_txo_eth = database_txo_eth.drop(columns=['Unnamed: 0'])
     
-    database_txo = database_txo.append(database_txo_btc)
-    database_txo = database_txo.append(database_txo_eth)
+    #database_txo = database_txo.append(database_txo_btc)
+    #database_txo = database_txo.append(database_txo_eth)
+    
+    database_txo = pd.concat([database_txo, database_txo_btc], ignore_index=True)
+    database_txo = pd.concat([database_txo, database_txo_eth], ignore_index=True)
     
     ax.cla()
     sns.countplot(x ='from_to', hue = "from_to", data = database_txo)
