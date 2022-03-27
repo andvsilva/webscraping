@@ -27,7 +27,7 @@ fig.subplots_adjust(top = 0.93, right = 0.9, bottom = 0.1, left = 0.1)
 
 # update plot in a loop
 def update(i):
-    now = datetime.now()
+    now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     
     # loading data feather format
     database_txo = pd.read_csv('dataset/database_txo.csv')
@@ -62,10 +62,7 @@ def update(i):
     
     database_txo_btc = database_txo_btc.drop(columns=['Unnamed: 0'])
     database_txo_eth = database_txo_eth.drop(columns=['Unnamed: 0'])
-    
-    #database_txo = database_txo.append(database_txo_btc)
-    #database_txo = database_txo.append(database_txo_eth)
-    
+
     database_txo = pd.concat([database_txo, database_txo_btc], ignore_index=True)
     database_txo = pd.concat([database_txo, database_txo_eth], ignore_index=True)
     
