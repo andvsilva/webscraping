@@ -72,7 +72,6 @@ class bcolors:
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
 
-
 # get key credencial for API
 api_key = open("key_credencial.txt", "r").read()
 
@@ -131,9 +130,9 @@ def whaleInfo(amount_currency, symbol_currency, id, date_time, WhaleFund):
     
 while True:
     
+    # dataset with the transactions.
     database_txo = pd.DataFrame(columns=txo_columns)
     
-    # save the metric calculated for each algorithm.
     # check if the file exist, please.
     if os.path.isfile('dataset/database_txo.csv'):
         FileExist=True
@@ -196,7 +195,11 @@ while True:
 
             price = round(amount_currency_usd/amount_currency, 2) # USD price cryptocurrency
 
-            # from_to: unknown-unknown (1), unknown-exchange (2), exchange-unknown (3), exchange-exchange (4)
+            # from_to: 
+            # unknown-unknown (1), 
+            # unknown-exchange (2), 
+            # exchange-unknown (3), 
+            # exchange-exchange (4).
             from_tos = ['unknown','exchange']
 
             for ifrom_to in from_tos:
