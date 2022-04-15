@@ -233,9 +233,11 @@ while True:
             #ic(database_txo)
             
             if(FileExist == False):
+                database_txo = database_txo.reset_index(drop=True)
                 database_txo.to_csv('dataset/database_txo.csv')
             else:
                 # saving the dataframe
+                database_txo = database_txo.reset_index(drop=True)
                 database_txo.to_csv('dataset/database_txo.csv', mode='a', index=True, header=False)
     
     tool.release_memory(database_txo)
