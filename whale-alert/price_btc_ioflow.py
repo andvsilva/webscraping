@@ -63,7 +63,6 @@ def update(i):
         df_btc = df_btc.reset_index(drop=True)
         df_btc.to_csv('dataset/price_date.csv', mode='a', index=True, header=False)
     else:
-        ic(df_btc)
         #df_btc = df_btc.reset_index(drop=True)
         df_btc.to_csv('dataset/price_date.csv')
     
@@ -84,12 +83,12 @@ def update(i):
     
     #ax1.grid(False) # turn off grid #2
     
-    ax.set_ylabel('price btc')
-    ax.set_ylim(0.98*price_btc, 1.02*price_btc)
+    ax.set_ylabel('price btc (USD)')
+    ax.set_ylim(0.99*price_btc, 1.01*price_btc)
     ax.yaxis.label.set_color('black')
     ax.yaxis.label.set_fontsize(14)
     ax.tick_params(axis='y', colors='black', labelsize=14)
-    ax.legend(['BTC price'], loc="upper left")
+    ax.legend(['BTC price USD'], loc="upper left")
     ax.xaxis.set_major_locator(mdates.MonthLocator(interval=1))
     ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d  %H:%M:%S'))
     
