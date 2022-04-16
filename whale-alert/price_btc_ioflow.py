@@ -42,9 +42,28 @@ def update(i):
     # get the date - time: YYYY-MM-DD HH:M:S
     now = datetime.now().strftime("%Y-%m-%d  %H:%M:%S")
     
+    # loading data feather format
+    database_txo = pd.read_csv('dataset/database_txo.csv')
+    database_txo = database_txo.drop(columns=['Unnamed: 0','amount_coin','amount_usd','id','date'])
+    database_txo = database_txo.dropna()
+    
     # get BTC price in USD
     data_BTC = requests.get('https://production.api.coindesk.com/v1/currency/ticker?currencies=BTC').json()
     price_btc = round(data_BTC['data']['currency']['BTC']['quotes']['USD']['price'], 2)
+    
+    change24Hr_pct = round(data_BTC['data']['currency']['BTC']['quotes']['USD']['change24Hr']['percent'],2)
+    
+    # BTC only
+    database_txo_btc = database_txo.loc[(database_txo['blockchain'] == 'BTC')]
+    
+    stats_from_to = database_txo_btc['from_to'].value_counts(normalize=True).map('{:.2%}'.format)
+    stats_from_to = dict(stats_from_to)
+    
+    from_to_stat = {}
+    
+    for ifrom_to in stats_from_to:
+        from_to_stat[f'{ifrom_to}'] = float(stats_from_to[ifrom_to][:-1])
+    
     
     # define the dataframe
     df_btc = pd.DataFrame(columns=name_cols)
@@ -74,7 +93,7 @@ def update(i):
     btc['date'] = pd.to_datetime(btc['date'])
     
     #plt.text(6, major_height+80, '@andvsilva_', dict(size=15))
-    #plt.text(1.6, major_height+7, f'{now}    1 BTC - ${price_btc} USD', dict(size=16), color = 'red')
+    
     ax.cla()
     plt.xticks(rotation=0)
     plt.grid(True)
@@ -83,15 +102,33 @@ def update(i):
     
     #ax1.grid(False) # turn off grid #2
     
-    ax.set_ylabel('price btc (USD)')
-    ax.set_ylim(0.99*price_btc, 1.01*price_btc)
+    ax.set_ylabel('price (USD)')
+    ax.set_ylim(0.995*price_btc, 1.005*price_btc)
     ax.yaxis.label.set_color('black')
     ax.yaxis.label.set_fontsize(14)
     ax.tick_params(axis='y', colors='black', labelsize=14)
-    ax.legend(['BTC price USD'], loc="upper left")
+    ax.legend(['BTC'], loc="upper left")
     ax.xaxis.set_major_locator(mdates.MonthLocator(interval=1))
     ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d  %H:%M:%S'))
     
+    plt.subplots_adjust(left=0.15, right=0.9, top=0.9, bottom=0.1)
+    
+    xmin, xmax, ymin, ymax = plt.axis()
+    
+    x_mean = (xmax+xmin)/2
+    y_mean = (ymax+ymin)/2
+    
+    xscale = 1.0
+    yscale = 1.0
+    diff_space=70
+    
+    for ifrom_to in from_to_stat:
+        plt.text(x_mean*xscale, y_mean*yscale+diff_space, f'{ifrom_to}: {from_to_stat[ifrom_to]} %', fontsize = 14)
+        diff_space += 30
+        #xscale = xscale*1.005
+        #yscale = yscale*1.001
+        
+    plt.text(x_mean-0.024, y_mean-100, f'{now}    1 BTC - ${price_btc} USD - change 24h: {change24Hr_pct}%', dict(size=14), color = 'black')
     plt.savefig("../images/price_from_to.pdf", dpi=150)
     plt.savefig("../images/price_from_to.png", dpi=150)
     plt.grid(True)

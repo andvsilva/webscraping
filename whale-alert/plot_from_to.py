@@ -22,10 +22,12 @@ import requests
 # set the theme to the seaborn
 sns.set_theme(style="darkgrid")
 
+
 # set figure, canvas and subplots
 fig, ax = plt.subplots(figsize = (10, 7))
 fig.canvas.manager.set_window_title("On-Chain Analysis")
 fig.subplots_adjust(top = 0.93, right = 0.9, bottom = 0.1, left = 0.1)
+
 
 # update plot in a loop
 #@snoop
@@ -47,6 +49,17 @@ def update(i):
     
     # BTC only
     database_txo_btc = database_txo.loc[(database_txo['blockchain'] == 'BTC')]
+    
+    stats_from_to = database_txo_btc['from_to'].value_counts(normalize=True).map('{:.2%}'.format)
+    stats_from_to = dict(stats_from_to)
+    
+    from_to_stat = {}
+    cols_from_to = []
+    
+    for ifrom_to in stats_from_to:
+        from_to_stat[f'{ifrom_to}'] = float(stats_from_to[ifrom_to][:-1])
+        cols_from_to.append(f'{ifrom_to}')
+        
     
     # ETH only
     database_txo_eth = database_txo.loc[(database_txo['blockchain'] == 'ETH')]
@@ -102,7 +115,7 @@ def update(i):
     ax.set_ylim([0, major_height*scale_size])
     
     plt.text(6, major_height+80, '@andvsilva_', dict(size=15))
-    plt.text(1.6, major_height+7, f'{now}    1 BTC - ${price_btc} USD', dict(size=16), color = 'red')
+    plt.text(2.1, major_height+7, f'{now}    1 BTC - ${price_btc} USD', dict(size=16), color = 'blue')
     plt.xticks(rotation=10)
     plt.grid(True)
     
