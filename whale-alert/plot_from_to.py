@@ -18,6 +18,7 @@ import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 from icecream import ic
 import requests
+import datetime as dt
 
 # set the theme to the seaborn
 sns.set_theme(style="darkgrid")

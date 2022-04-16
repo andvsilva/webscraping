@@ -27,10 +27,6 @@ import datetime as dt
 # set the theme to the seaborn
 sns.set_theme(style="darkgrid")
 
-# column names to the dataframe price and date
-name_cols = ['price_btc','date']
-
-
 # set figure, canvas and subplots
 fig, ax = plt.subplots(figsize = (10, 7))
 fig.canvas.manager.set_window_title("On-Chain Analysis")
@@ -65,27 +61,6 @@ def update(i):
         from_to_stat[f'{ifrom_to}'] = float(stats_from_to[ifrom_to][:-1])
     
     
-    # define the dataframe
-    df_btc = pd.DataFrame(columns=name_cols)
-
-    database = {'price_btc': price_btc, 
-                'date': now
-               }
-
-    #print(f">>> {now} - price: {price_btc}")
-    
-    df_database = pd.DataFrame([database])
-    df_btc = pd.concat([df_btc, df_database], ignore_index=True)
-    
-    # check if the file exist, please.
-    if os.path.isfile('dataset/price_date.csv'):
-        df_btc = df_btc.reset_index(drop=True)
-        df_btc.to_csv('dataset/price_date.csv', mode='a', index=True, header=False)
-    else:
-        #df_btc = df_btc.reset_index(drop=True)
-        df_btc.to_csv('dataset/price_date.csv')
-    
-    
     # dataframe price and date - history
     btc = pd.read_csv('dataset/price_date.csv')
     
@@ -102,8 +77,9 @@ def update(i):
     
     #ax1.grid(False) # turn off grid #2
     
+    ax.set_title('InFlow versus OutFlow - Transactions vs Price BTC', fontsize = 15, color='blue')
     ax.set_ylabel('price (USD)')
-    ax.set_ylim(0.995*price_btc, 1.005*price_btc)
+    ax.set_ylim(0.99*price_btc, 1.005*price_btc)
     ax.yaxis.label.set_color('black')
     ax.yaxis.label.set_fontsize(14)
     ax.tick_params(axis='y', colors='black', labelsize=14)
