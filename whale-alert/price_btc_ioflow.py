@@ -95,16 +95,16 @@ def update(i):
     y_mean = (ymax+ymin)/2
     
     xscale = 1.0
-    yscale = 1.0
-    diff_space=70
+    yscale = 1.05
+    diff_space=80
     
     for ifrom_to in from_to_stat:
-        plt.text(x_mean*xscale, y_mean*yscale+diff_space, f'{ifrom_to}: {from_to_stat[ifrom_to]} %', fontsize = 14)
-        diff_space += 30
+        plt.text(x_mean*xscale, 1.005*price_btc-diff_space, f'{ifrom_to}: {from_to_stat[ifrom_to]} %', fontsize = 14)
+        diff_space -= 30
         #xscale = xscale*1.005
         #yscale = yscale*1.001
         
-    plt.text(x_mean-0.024, y_mean-100, f'{now}    1 BTC - ${price_btc} USD - change 24h: {change24Hr_pct}%', dict(size=14), color = 'black')
+    plt.text(x_mean-0.016, 0.99*price_btc+diff_space, f'{now}    1 BTC - ${price_btc} USD - change 24h: {change24Hr_pct}%', dict(size=14), color = 'black')
     plt.savefig("../images/price_from_to.pdf", dpi=150)
     plt.savefig("../images/price_from_to.png", dpi=150)
     plt.grid(True)

@@ -1,4 +1,4 @@
-# On Chain Analysis for BTC blockchain using the Whale Alert API package in python. For beginners.
+# On Chain Analysis for blockchain data using the Whale Alert API framework in python.
 
 A marvelous tutorial showing a simple example of how to implement On Chain Analysis for one specific metric called Inflow and Outflow transactions of BTC to exchanges using the [Whale Alert API](https://docs.whale-alert.io/#introduction). In the market is a consensus that this metric shows a correlation with the price of BTC. I am not an expert in On Chain Analysis, this one way to work around with topic and to study more about.
 
