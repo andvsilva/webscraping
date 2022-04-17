@@ -2,16 +2,15 @@
 
 A marvelous tutorial showing a simple example of how to implement On Chain Analysis for one specific metric called Inflow and Outflow transactions of BTC to exchanges using the [Whale Alert API](https://docs.whale-alert.io/#introduction). In the market is a consensus that this metric shows a correlation with the price of BTC. I am not an expert in On Chain Analysis, this one way to work around with topic and to study more about.
 
-```
 I strong recomend NOT to use this tutorial to make an investiment decision, 
 and the proposal of this example is to study the topic only.
-```
 
 
+<!--
 Hi, I am a Bitcoin enthusiastic and maximalist (almost 99%) and since 2017 I started reading and studying about the crypto market, and now I still reading and studying more and more about it, because I believe that what Bitcoin did for the first time in human history. Below the best description that I see so far about Bitcoin:
 
 ![](images/btc_fundamentals.png)
-<!--
+
 ```bash
 In 2008 a person or group of people using pseudonym
 Satoshi Nakamoto proposed a decentralized peer-to-peer system 
@@ -24,9 +23,9 @@ ledger technology are the foundation for based digital assets.
 ```
 -->
 
-In this article I will explain and show how to use the [Whale Alert API](https://docs.whale-alert.io/#introduction) to track historical transaction data and to make your own analysis from differents blockchains, like Bitcoin, Ethereum, Ripple and others, for more information read the documentation [Whale Alert API](https://docs.whale-alert.io/#introduction).
+In this article, I will explain and show how to use the [Whale Alert API](https://docs.whale-alert.io/#introduction) to track historical transaction data and to make your own analysis from differents blockchains, like Bitcoin, Ethereum, Ripple and others, for more information read the documentation [Whale Alert API](https://docs.whale-alert.io/#introduction).
 
-In this implementation I will focus **On Chain Analysis** of the BTC blockchain transaction data to look deep dive into **the metric Inflow and Outflow of BTCs**:
+In the implementation I will focus **On Chain Analysis** of the BTC blockchain transaction data to look deep dive into **the metric Inflow and Outflow of BTCs**:
 
 - ```from exchange to unknown(wallet)```
 - ```from exchange to exchange```

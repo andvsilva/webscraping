@@ -40,14 +40,14 @@ def update(i):
     
     # loading data feather format
     database_txo = pd.read_csv('dataset/database_txo.csv')
-    database_txo = database_txo.drop(columns=['Unnamed: 0','amount_coin','amount_usd','id','date'])
+    database_txo = database_txo.drop(columns=['amount_coin','amount_usd','id','date'])
     database_txo = database_txo.dropna()
     
     # get BTC price in USD
     data_BTC = requests.get('https://production.api.coindesk.com/v1/currency/ticker?currencies=BTC').json()
     price_btc = round(data_BTC['data']['currency']['BTC']['quotes']['USD']['price'], 2)
     
-    change24Hr_pct = round(data_BTC['data']['currency']['BTC']['quotes']['USD']['change24Hr']['percent'],2)
+    change24h_pct = round(data_BTC['data']['currency']['BTC']['quotes']['USD']['change24Hr']['percent'],2)
     
     # BTC only
     database_txo_btc = database_txo.loc[(database_txo['blockchain'] == 'BTC')]
@@ -80,7 +80,7 @@ def update(i):
     
     #ax1.grid(False) # turn off grid #2
     
-    ax.set_title(f'{now}    1 BTC - ${price_btc} USD - change 24h: {change24Hr_pct}%', fontsize = 16, color='red')
+    ax.set_title(f'{now}    1 BTC - ${price_btc} USD - change 24h: {change24h_pct}%', fontsize = 16, color='red')
     ax.set_ylabel('price (USD)')
     ax.set_ylim(0.998*ymin_lim, 1.005*ymax_lim)
     ax.yaxis.label.set_color('black')
@@ -107,7 +107,7 @@ def update(i):
         #xscale = xscale*1.005
         #yscale = yscale*1.001
         
-    #plt.text(x_mean-0.016, 0.99*price_btc+diff_space, f'{now}    1 BTC - ${price_btc} USD - change 24h: {change24Hr_pct}%', dict(size=14), color = 'black')
+    #plt.text(x_mean-0.016, 0.99*price_btc+diff_space, f'{now}    1 BTC - ${price_btc} USD - change 24h: {change24h_pct}%', dict(size=14), color = 'black')
     plt.savefig("../images/price_btc_ioflow.pdf", dpi=150)
     plt.savefig("../images/price_btc_ioflow.png", dpi=150)
     plt.grid(True)

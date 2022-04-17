@@ -38,7 +38,7 @@ def update(i):
     
     # loading data feather format
     database_txo = pd.read_csv('dataset/database_txo.csv')
-    database_txo = database_txo.drop(columns=['Unnamed: 0','amount_coin','amount_usd','id','date'])
+    database_txo = database_txo.drop(columns=['amount_coin','amount_usd','id','date'])
     database_txo = database_txo.dropna()
     
     # count NaN found in the dataset

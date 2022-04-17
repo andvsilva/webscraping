@@ -8,6 +8,55 @@ import os.path
 from matplotlib.backends.backend_pdf import PdfPages
 import sys
 import gc
+import time
+from datetime import datetime
+from pprint import pprint  # For formatted dictionary printing
+import os.path
+import sys
+import gc
+from sys import getsizeof
+from colored import fore, back, style
+import toolkit as tool
+import snoop
+import requests
+import notify2
+
+
+# To print colored text in python 
+class bcolors:
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKCYAN = '\033[96m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+    
+def notify(price, symbol_currency, date_time):
+    
+    ICON_PATH = "../images/btc.jpg" # This is not working, FIXME, I do not know why.
+
+    # initialise the d-bus connection
+    notify2.init("Cryptocurrency reach the price")
+
+    # create Notification object
+    n = notify2.Notification("Crypto Notifier", icon = ICON_PATH)
+
+    # Set the urgency level
+    n.set_urgency(notify2.URGENCY_NORMAL)
+
+    # Set the timeout
+    n.set_timeout(1000)
+
+    result = str(price)
+
+    # Update the content
+    n.update(f"1 {symbol_currency} in USD - {date_time}", result)
+
+    # Show the notification
+    n.show()
 
 # Reduce DataFrame size
 # This part of the code is not my, I get from this webpage: 
@@ -63,3 +112,21 @@ def release_array(dd):
     del dd 
     gc.collect()
     dd = None
+
+list_limits = [500]
+list_symbols = ['BTC', 'ETH']
+            
+#@snoop
+def whaleInfo(price, amount_currency, symbol_currency, id, date_time, WhaleFund):
+    for ilist_symbol in list_symbols:
+        if symbol_currency == f'{ilist_symbol}':
+            for ilist_limit in list_limits:
+                if( amount_currency >= ilist_limit):
+                    notify(price, symbol_currency, date_time)
+                    print('******************************************************************************************************')
+                    print('>>>>>>>>>> WARNING: WHALE MOVING FUNDS <<<<<<<<<<<<<')
+                    print(fore.WHITE + back.RED + style.BOLD + f'>>>  {amount_currency} {ilist_symbol} MOVED - ID: {id}' + style.RESET)
+                    print('******************************************************************************************************')
+                    WhaleFund=True
+                    
+    return WhaleFund

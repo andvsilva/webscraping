@@ -9,7 +9,7 @@
 # https://github.com/stuianna/whaleAlert
 ###########################################################################
 
-############## importing libraries ########################################
+# importing libraries
 import time
 from datetime import datetime
 from icecream import ic
@@ -17,7 +17,6 @@ import pandas as pd
 from datetime import datetime
 from pprint import pprint  # For formatted dictionary printing
 from whalealert.whalealert import WhaleAlert
-import notify2
 import os.path
 import sys
 import gc
@@ -30,36 +29,10 @@ from colored import fore, back, style
 import toolkit as tool
 import snoop
 import requests
+import notify2
 
 whale = WhaleAlert()
 WhaleFund = False
-
-# Building a desktop notification tool for Linux using python
-# https://www.codementor.io/@dushyantbgs/building-a-desktop-notification-tool-using-python-bcpya9cwh
-#@snoop
-def notify(price, symbol_currency, date_time):
-
-    ICON_PATH = "../images/btc.jpg" # This is not working, FIXME, I do not know why.
-
-    # initialise the d-bus connection
-    notify2.init("Cryptocurrency reach the price")
-
-    # create Notification object
-    n = notify2.Notification("Crypto Notifier", icon = ICON_PATH)
-
-    # Set the urgency level
-    n.set_urgency(notify2.URGENCY_NORMAL)
-
-    # Set the timeout
-    n.set_timeout(1000)
-
-    result = str(price)
-
-    # Update the content
-    n.update(f"1 {symbol_currency} in USD - {date_time}", result)
-
-    # Show the notification
-    n.show()
 
 # To print colored text in python 
 class bcolors:
@@ -83,6 +56,7 @@ id=0
 index=0
 idx=0
 
+#from to - inflow and outflow of transactions
 list_cols = ['unknown-unknown',
              'unknown-exchange',
              'exchange-unknown',
@@ -124,25 +98,7 @@ txo_columns_btc = ['blockchain',
 
 # column names to the dataframe price and date
 name_cols = ['price_btc','date']
-
-list_limits = [1500]
-list_symbols = ['BTC', 'ETH']
-
-#@snoop
-def whaleInfo(amount_currency, symbol_currency, id, date_time, WhaleFund):
-    for ilist_symbol in list_symbols:
-        if symbol_currency == f'{ilist_symbol}':
-            for ilist_limit in list_limits:
-                if( amount_currency >= ilist_limit):
-                    notify(price, symbol_currency, date_time)
-                    print('******************************************************************************************************')
-                    print('>>>>>>>>>> WARNING: WHALE MOVING FUNDS <<<<<<<<<<<<<')
-                    print(fore.WHITE + back.RED + style.BOLD + f'>>>  {amount_currency} {ilist_symbol} MOVED - ID: {id}' + style.RESET)
-                    print('******************************************************************************************************')
-                    WhaleFund=True
-                    
-    return WhaleFund
-    
+   
 while True:
     
     # dataset with the transactions.
@@ -152,13 +108,7 @@ while True:
     database_txo_btc = pd.DataFrame(columns=txo_columns_btc)
     
     # check if the file exist, please.
-    if os.path.isfile('dataset/database_txo.csv'):
-        FileExist=True
-    else:
-        FileExist=False
-        
-    # check if the file exist, please.
-    if os.path.isfile('dataset/database_txo_btc.csv'):
+    if os.path.isfile('dataset/database_txo.csv') and os.path.isfile('dataset/database_txo_btc.csv'):
         FileExist=True
     else:
         FileExist=False
@@ -167,7 +117,7 @@ while True:
     data_BTC = requests.get('https://production.api.coindesk.com/v1/currency/ticker?currencies=BTC').json()
     price_btc = round(data_BTC['data']['currency']['BTC']['quotes']['USD']['price'], 2)
     
-    change24hr_pct = round(data_BTC['data']['currency']['BTC']['quotes']['USD']['change24Hr']['percent'],2)
+    change24h_pct = round(data_BTC['data']['currency']['BTC']['quotes']['USD']['change24Hr']['percent'], 2)
     
     # get the date - time: YYYY-MM-DD HH:M:S
     now = datetime.now().strftime("%Y-%m-%d  %H:%M:%S")
@@ -176,20 +126,20 @@ while True:
     df_btc = pd.DataFrame(columns=name_cols)
 
     database = {'price_btc': price_btc,
-                'change24hr_pct': change24hr_pct,
+                'change24h_pct': change24h_pct,
                 'date': now
                }
     
     df_database = pd.DataFrame([database])
-    df_btc = pd.concat([df_btc, df_database], ignore_index=True)
+    df_btc = pd.concat([df_btc, df_database]) #ignore_index=True
     
     # check if the file exist, please.
     if os.path.isfile('dataset/price_date.csv'):
         df_btc = df_btc.reset_index(drop=True)
-        df_btc.to_csv('dataset/price_date.csv', mode='a', index=True, header=False)
+        df_btc.to_csv('dataset/price_date.csv', mode='a', index=False, header=False)
     else:
-        #df_btc = df_btc.reset_index(drop=True)
-        df_btc.to_csv('dataset/price_date.csv')
+        df_btc = df_btc.reset_index(drop=True)
+        df_btc.to_csv('dataset/price_date.csv', index=False)
     
     # Specify a single transaction from the last 10 minutes
     start_time = int(time.time() - 600)
@@ -207,6 +157,7 @@ while True:
     # convert list of dict to dict
     dict_transactions = dict((key,d[key]) for d in transactions for key in d)
 
+    # date and time of the transaction
     date_txo = datetime.fromtimestamp(dict_transactions['timestamp'])
     
     # loop in information from one transaction
@@ -251,9 +202,7 @@ while True:
                 database_txo_btc.loc[idx,'amount_coin'] = amount_currency
                 database_txo_btc.loc[idx,'amount_usd'] = amount_currency_usd
                 database_txo_btc.loc[idx,'hash'] = hash_txo
-                database_txo_btc.loc[idx,'price'] = price_btc
-                database_txo_btc.loc[idx,'change24hr_pct'] = change24hr_pct
-
+                
             price = round(amount_currency_usd/amount_currency, 2) # USD price cryptocurrency
 
             # from_to: 
@@ -266,7 +215,7 @@ while True:
             for ifrom_to in from_tos:
                 for jfrom_to in from_tos:
                     if(from_owner_type == ifrom_to and to_owner_type == jfrom_to):
-                        WFund = whaleInfo(amount_currency, symbol_currency, id, date_time, WhaleFund)
+                        WFund = tool.whaleInfo(price, amount_currency, symbol_currency, id, date_time, WhaleFund)
                         
                         if(WFund):
                             print(fore.WHITE + back.RED + style.BOLD + f'#{index} {dict_transactions[key]}: {amount_currency} {symbol_currency} ({amount_currency_usd} USD){bcolors.ENDC}: from {bcolors.HEADER}{from_owner_type}({from_owner}) to {bcolors.HEADER}{to_owner_type}({to_owner}){bcolors.ENDC} id: {id}, {date_txo}' + style.RESET)
@@ -275,9 +224,12 @@ while True:
                             print(f'#{index} {bcolors.HEADER}{dict_transactions[key]}{bcolors.ENDC}: {bcolors.OKGREEN}{amount_currency} {symbol_currency}{bcolors.ENDC} ({amount_currency_usd} USD): from {bcolors.HEADER}{from_owner_type}({from_owner}){bcolors.ENDC} to {bcolors.HEADER}{to_owner_type}({to_owner}){bcolors.ENDC} id: {id}, {date_txo}')
                         
                         if(symbol_currency == 'BTC'):
-                            database_txo_btc.loc[index,'from_to'] = f'{ifrom_to}' + '-' + f'{jfrom_to}'
-                            database_txo_btc.loc[index,'id'] = id
-                            database_txo_btc.loc[index,'date'] = date_txo
+                            database_txo_btc.loc[idx,'from_to'] = f'{ifrom_to}' + '-' + f'{jfrom_to}'
+                            database_txo_btc.loc[idx,'id'] = id
+                            database_txo_btc.loc[idx,'date'] = date_txo
+                            database_txo_btc.loc[idx,'price'] = price_btc
+                            database_txo_btc.loc[idx,'change24h_pct'] = change24h_pct
+
                             
                         dict_count_from_tos[f'{ifrom_to}-{jfrom_to}'] += 1
                         dict_amount_usd_from_tos[f'{ifrom_to}-{jfrom_to}'] = dict_amount_usd_from_tos[f'{ifrom_to}-{jfrom_to}'] + amount_currency_usd
@@ -295,25 +247,23 @@ while True:
                         index += 1
                         idx += 1
                         
-            #ic(df_count_from_tos)
-            #ic(database_txo)
             
             if(FileExist == False):
                 database_txo = database_txo.reset_index(drop=True)
-                database_txo.to_csv('dataset/database_txo.csv')
+                database_txo.to_csv('dataset/database_txo.csv',index=False)
                 
                 # BTC only
                 database_txo_btc = database_txo_btc.reset_index(drop=True)
-                database_txo_btc.to_csv('dataset/database_txo_btc.csv')
+                database_txo_btc.to_csv('dataset/database_txo_btc.csv', index=False)
                 
             else:
                 # saving the dataframe
                 database_txo = database_txo.reset_index(drop=True)
-                database_txo.to_csv('dataset/database_txo.csv', mode='a', index=True, header=False)
+                database_txo.to_csv('dataset/database_txo.csv', mode='a', index=False, header=False)
                 
                 # saving the dataframe BTC only
                 database_txo_btc = database_txo_btc.reset_index(drop=True)
-                database_txo_btc.to_csv('dataset/database_txo_btc.csv', mode='a', index=True, header=False)
+                database_txo_btc.to_csv('dataset/database_txo_btc.csv', mode='a', index=False, header=False)
     
     tool.release_memory(database_txo)
     tool.release_memory(database_txo_btc)
