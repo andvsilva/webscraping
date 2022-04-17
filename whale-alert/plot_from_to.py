@@ -115,8 +115,8 @@ def update(i):
             
     ax.set_ylim([0, major_height*scale_size])
     
-    plt.text(6, major_height+4, '@andvsilva_', dict(size=15))
-    plt.text(2.1, major_height+2, f'{now}    1 BTC - ${price_btc} USD', dict(size=16), color = 'blue')
+    plt.text(6, major_height+10, '@andvsilva_', dict(size=15))
+    plt.text(2.1, major_height+2, f'{now}    1 BTC - ${price_btc} USD', dict(size=17), color = 'orange')
     plt.xticks(rotation=10)
     plt.grid(True)
     

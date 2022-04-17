@@ -67,6 +67,9 @@ def update(i):
     # convert object to pandas datetime feature.
     btc['date'] = pd.to_datetime(btc['date'])
     
+    ymax_lim = btc['price_btc'].max()
+    ymin_lim = btc['price_btc'].min()
+    
     #plt.text(6, major_height+80, '@andvsilva_', dict(size=15))
     
     ax.cla()
@@ -77,9 +80,9 @@ def update(i):
     
     #ax1.grid(False) # turn off grid #2
     
-    ax.set_title('InFlow versus OutFlow - Transactions vs Price BTC', fontsize = 15, color='blue')
+    ax.set_title(f'{now}    1 BTC - ${price_btc} USD - change 24h: {change24Hr_pct}%', fontsize = 16, color='red')
     ax.set_ylabel('price (USD)')
-    ax.set_ylim(0.99*price_btc, 1.005*price_btc)
+    ax.set_ylim(0.998*ymin_lim, 1.005*ymax_lim)
     ax.yaxis.label.set_color('black')
     ax.yaxis.label.set_fontsize(14)
     ax.tick_params(axis='y', colors='black', labelsize=14)
@@ -96,17 +99,17 @@ def update(i):
     
     xscale = 1.0
     yscale = 1.05
-    diff_space=80
+    diff_space=0
     
     for ifrom_to in from_to_stat:
-        plt.text(x_mean*xscale, 1.005*price_btc-diff_space, f'{ifrom_to}: {from_to_stat[ifrom_to]} %', fontsize = 14)
-        diff_space -= 30
+        plt.text(x_mean*xscale-0.08, 1.0004*ymax_lim-diff_space, f'{ifrom_to}: {from_to_stat[ifrom_to]} %', fontsize = 14)
+        diff_space -= 50
         #xscale = xscale*1.005
         #yscale = yscale*1.001
         
-    plt.text(x_mean-0.016, 0.99*price_btc+diff_space, f'{now}    1 BTC - ${price_btc} USD - change 24h: {change24Hr_pct}%', dict(size=14), color = 'black')
-    plt.savefig("../images/price_from_to.pdf", dpi=150)
-    plt.savefig("../images/price_from_to.png", dpi=150)
+    #plt.text(x_mean-0.016, 0.99*price_btc+diff_space, f'{now}    1 BTC - ${price_btc} USD - change 24h: {change24Hr_pct}%', dict(size=14), color = 'black')
+    plt.savefig("../images/price_btc_ioflow.pdf", dpi=150)
+    plt.savefig("../images/price_btc_ioflow.png", dpi=150)
     plt.grid(True)
     #time.sleep(10)
 
