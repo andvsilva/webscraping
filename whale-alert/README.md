@@ -41,7 +41,7 @@ In Summary for this article, I will describe how to build the framework(Using on
 - [Build the API using the Whale Alert framework to get BTC blockchain transaction data]().
 - [Analysis the data, making plots to compare the Inflow and Outflow of BTCs and search one way to quantify a correlation with the price]().
 
-**NOTE**: For this tutorial I will use the Linux Ubuntu 20 to do everything. If you are using Windows the commands will be similars and check on the internet to see how to make tutorial in Windows installed the framework to develop this API.
+**NOTE**: For this tutorial I will use the Linux Ubuntu 20 to do everything. If you are using Windows the commands will be similars and check on the internet to see how to make tutorial on Windows to install the framework to develop this API.
 
 
 ### 1 - Setting the environment to build the framework API.
@@ -83,6 +83,17 @@ If the installation was sucessfully, we can now to create your new virtual envir
 # I am called the project of 'api-blockchain-data'
 
 $ python3 -m venv api-blockchain-data
+```
+
+After to set the virtual environment, you can install the python packages that will used in this project, by typing the following command:
+
+```bash
+# folder of the project
+$ wget 
+# get the python packages names
+
+
+pip install -r requirements.txt
 ```
 
 ## References
