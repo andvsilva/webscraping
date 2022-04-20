@@ -102,7 +102,7 @@ def update(i):
     diff_space=0
     
     for ifrom_to in from_to_stat:
-        plt.text(x_mean*xscale-0.08, 1.0004*ymax_lim-diff_space, f'{ifrom_to}: {from_to_stat[ifrom_to]} %', fontsize = 14)
+        plt.text(x_mean*xscale, 1.0004*ymax_lim-diff_space, f'{ifrom_to}: {from_to_stat[ifrom_to]} %', fontsize = 14)
         diff_space -= 50
         #xscale = xscale*1.005
         #yscale = yscale*1.001
