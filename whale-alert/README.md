@@ -85,15 +85,64 @@ If the installation was sucessfully, we can now to create your new virtual envir
 $ python3 -m venv api-blockchain-data
 ```
 
-After to set the virtual environment, you can install the python packages that will used in this project, by typing the following command:
+To start using this virtual environment, you need to activate it by running the activate script:
 
 ```bash
-# folder of the project
-$ wget 
-# get the python packages names
+$ source api-blockchain-data/bin/activate
+```
+
+After to set the virtual environment, you can install the python packages that will used in this project:
+
+```bash
+## requirements.txt
+colored==1.4.3
+dash==1.17.0
+dash_core_components==1.13.0
+dash_html_components==1.1.1
+dash_table==4.11.0
+icecream==2.1.1
+ipython==8.2.0
+matplotlib==3.5.1
+notify2==0.3.1
+numpy==1.22.2
+pandas==1.4.1
+requests==2.27.1
+seaborn==0.11.2
+snoop==0.4.0
+whale_alert==0.0.4
+```
+
+Now you can to install all the packages with only one command, you need to save the package names above in one file called:
+```requirements.txt``` on the folder of the project
+
+by typing the following command:
+
+```bash
+$ pip install -r requirements.txt
+```
+
+**Quick note**: This is a great feature of the python, you can list all the packages used on the project using the following command:
+
+```bash
+# requirements for this project.
+# requirements.txt
+$ pip install freeze
+
+# Install pre requirements, make the command below:
+$ pip install -r requirements.txt
 
 
-pip install -r requirements.txt
+# Or if you do not know the package names used on the project, 
+# you can use the library 'pipreq' that is a pip installable 
+# and automatically generates the file requirements.txt
+$ pip install pipreqs
+$ pipreqs '/home/project/location/api-blockchain-data'
+
+## It will print:
+Successfully saved requirements file in /home/project/location/api-blockchain-data/requirements.txt
+
+# and typing...
+$ pip install -r requirements.txt
 ```
 
 ## References
