@@ -214,14 +214,26 @@ After of All the settings. We are already to start. First, I will show how to us
 
 <!-- https://replit.com/@andvsilva/whalealert#main.pypi -->
 
+
+### 2.1 - Whale Alert API How does it works?
+
+To begin this example, first install the python library of the Whale Alert API using pip:
+```bash
+# install the python package - whale alert
+$ pip install whale-alert
+```
+
+Now can run the source code below. [The source code here](https://gist.github.com/andvsilva/ced6efe989613bbeb95acea4b4e3e8d7#file-whale_alert_api-py).
+
 ![](images/whale_alert_api.png)
 
-The source code can be copy from this [link](https://gist.github.com/andvsilva/ced6efe989613bbeb95acea4b4e3e8d7#file-whale_alert_api-py). **NOTE**: In this example, I put my API key, for this purpose is not a problem, if was for another thing could be a big prblem.
+**NOTE**: In this example, I put my API key, for this purpose is not a problem, if was for another thing could be a big problem.
 
 When you run the source code, you will see the following result, one BTC transaction, hash, from, to, amount of coins, amount in USD and timestamp:
 
 ![](images/txo.png)
 
+After this point, I will develop the source code step-by-step of the project to scrape the data from the Whale Alert API and store in a CSV file. 
 
 ## 3 - Analysis the data by making the plots of the Inflow and Outflow of BTC
 
