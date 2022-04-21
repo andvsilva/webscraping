@@ -145,7 +145,7 @@ Successfully saved requirements file in /home/project/location/api-blockchain-da
 $ pip install -r requirements.txt
 ```
 
-## 2 - Build the API using the Whale Alert framework to get BTC blockchain transaction data
+## 2 - Build the API using the Whale Alert API framework
 
 To use the Whale Alert API you need to get the API key to do the Authentication to have access to the API service. To create an API key please [sign up here](https://whale-alert.io/signup).
 
