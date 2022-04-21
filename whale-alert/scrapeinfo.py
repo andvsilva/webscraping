@@ -47,9 +47,10 @@ class bcolors:
     UNDERLINE = '\033[4m'
 
 # get key credencial for API
-api_key = open("key_credencial.txt", "r").read()
+#api_key = open("key_credencial.txt", "r").read()
+api_key = os.environ['api_key_whale']
 
-# limit of transactions per request
+# limit of transactions per request - free plan
 transaction_count_limit = 1
 
 id=0

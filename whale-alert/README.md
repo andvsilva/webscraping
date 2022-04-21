@@ -145,6 +145,84 @@ Successfully saved requirements file in /home/project/location/api-blockchain-da
 $ pip install -r requirements.txt
 ```
 
+## 2 - Build the API using the Whale Alert framework to get BTC blockchain transaction data
+
+To use the Whale Alert API you need to get the API key to do the Authentication to have access to the API service. To create an API key please [sign up here](https://whale-alert.io/signup).
+
+According with the API documentation:
+
+```bash
+API rate limiting is dependent on your plan. 
+For the free plan the number of requests is limited to 10 per minute. 
+The personal plan has a rate limit of 60 per minute. If you need more requests, 
+please contact us for an Enterprise account.
+```
+
+For this tutorial you can use the ```free plan```. After you have created the API key is good practice to keep the API key save, DO NOT SHARE WITH ANYONE OR COMMIT TO PUBLIC REPOSITORY.
+
+How can I keep the API save? you can set as environment variable in bash shell. To do this open ```~/.bashrc``` and then in the final of the file add the following line:
+
+```bash
+export api_key_whale='here go you api kei'
+```
+
+Save and exit the file. After that you need to source the file ```~/.bashrc``` like this:
+
+```bash
+$ source ~/.bashrc
+```
+
+To check if everything is right, just type on the terminal:
+
+```bash
+$ echo $api_key_whale
+```
+
+This will return the api key that was stored on the bash shell. 
+
+Now to get the api key in python, you only need:
+
+```bash
+# python file.
+import os
+
+api_key = os.environ['api_key_whale']
+```
+
+Another way is to store your 'api key' in one file, for example, api_key_wl.txt in the folder of the project in computer and commit to repository. To avoid commit to repository you can add the file name in to the gitignore file:
+
+```bash
+## gitignore file has the file names that are not going to the repository
+# folder the project and create the file gitignore
+$ touch .gitignore
+
+# create the file to store the api key.
+$ touch api_key_wl.txt
+
+# add the api key to the file
+$ echo "api key" > api_key_wl.txt
+
+# and add the file name to the gitignore
+$ echo "api_key_wl.txt" >> .gitignore
+
+#so, Finally:
+$ cat .gitignore 
+api_key_wl.txt
+```
+
+After of All the settings. We are already to start. First, I will show how to use the Whale Alert API library.
+
+<!-- https://replit.com/@andvsilva/whalealert#main.pypi -->
+
+![](images/whale_alert_api.png)
+
+The source code can be copy from this [link](https://gist.github.com/andvsilva/ced6efe989613bbeb95acea4b4e3e8d7#file-whale_alert_api-py). **NOTE**: In this example, I put my API key, for this purpose is not a problem, if was for another thing could be a big prblem.
+
+When you run the source code, you will see the following result, one BTC transaction, hash, from, to, amount of coins, amount in USD and timestamp:
+
+![](images/txo.png)
+
+
 ## References
 
 - [Bitcoin: A Peer-to-Peer Electronic Cash System](https://bitcoin.org/bitcoin.pdf)
@@ -152,3 +230,4 @@ $ pip install -r requirements.txt
 - [The Scalability Trilemma in Blockchain](https://aakash-111.medium.com/the-scalability-trilemma-in-blockchain-75fb57f646df)
 - [On Sound Money](https://medium.com/galaxy-digital-research/on-sound-money-afc0619697b3)
 - [BITCOIN’S ON-CHAIN MARKET CYCLES](https://bitcoinmagazine.com/markets/bitcoins-on-chain-market-cycles)
+- [Carbon -> Create and share beautiful images of your source code](https://carbon.now.sh/)
