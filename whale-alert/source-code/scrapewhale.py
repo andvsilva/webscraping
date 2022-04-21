@@ -18,13 +18,14 @@ create three files:
 2 - store the BTC history transactions data.
 
 # Basic Usage:
-$ cd project-folder
-$ python scrapewhale
+$ cd whale-alert/source-code/
+$ python scrapewhale.py
 
-Or a script shell to run forever, if
+Or script shell to run forever, if
 you get a error, the script will run again
 scrapewhale.py
 
+cd whale-alert/script-shell
 $ source runscrape.sh
 
 >>> Author: @andvsilva 2022-04-21 10h
