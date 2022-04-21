@@ -120,8 +120,30 @@ while True:
     # get BTC price in USD
     data_BTC = requests.get(coindesk_api).json()
     price_btc = round(data_BTC['data']['currency']['BTC']['quotes']['USD']['price'], 2)
-    
     change24h_pct = round(data_BTC['data']['currency']['BTC']['quotes']['USD']['change24Hr']['percent'], 2)
+    
+    # get the date - time: YYYY-MM-DD HH:M:S
+    date_now = datetime.now().strftime("%Y-%m-%d  %H:%M:%S")
+    
+    # database - info: BTC - date, price and change24h %
+    df_btc = pd.DataFrame(columns=['date','price_btc','change24h_pct'])
+    
+    # info: BTC - date, price and change24h %
+    database = {'date': date_now,
+                'price_btc': price_btc,
+                'change24h_pct': change24h_pct
+               }
+    
+    df_database = pd.DataFrame([database])
+    df_btc = pd.concat([df_btc, df_database])
+       
+    # check if the file exist, please.
+    if os.path.isfile('../dataset/price_date.csv'):
+        df_btc = df_btc.reset_index(drop=True)
+        df_btc.to_csv('../dataset/price_date.csv', mode='a', index=False, header=False)
+    else:
+        df_btc = df_btc.reset_index(drop=True)
+        df_btc.to_csv('../dataset/price_date.csv', index=False)
     
     # check if the file exist, please.
     if os.path.isfile('../dataset/database_txo.csv') and os.path.isfile('../dataset/database_txo_btc.csv'):
@@ -223,5 +245,3 @@ while True:
     tool.release_memory(database_txo)
     tool.release_memory(database_txo_btc)
     time.sleep(6)
-    
-    time.sleep(30)

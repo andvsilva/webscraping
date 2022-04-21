@@ -2,5 +2,5 @@
 
 while :
 do
-    python price_btc_ioflow.py
+    python ../make-plots/price_btc_ioflow.py
 done

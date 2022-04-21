@@ -24,6 +24,8 @@ import matplotlib.dates as mdates
 from matplotlib.dates import DateFormatter
 import datetime as dt
 
+coindesk_api = 'https://production.api.coindesk.com/v1/currency/ticker?currencies=BTC'
+
 # set the theme to the seaborn
 sns.set_theme(style="darkgrid")
 
@@ -39,12 +41,12 @@ def update(i):
     now = datetime.now().strftime("%Y-%m-%d  %H:%M:%S")
     
     # loading data feather format
-    database_txo = pd.read_csv('dataset/database_txo.csv')
+    database_txo = pd.read_csv('../dataset/database_txo.csv')
     database_txo = database_txo.drop(columns=['amount_coin','amount_usd','id','date'])
     database_txo = database_txo.dropna()
     
     # get BTC price in USD
-    data_BTC = requests.get('https://production.api.coindesk.com/v1/currency/ticker?currencies=BTC').json()
+    data_BTC = requests.get(coindesk_api).json()
     price_btc = round(data_BTC['data']['currency']['BTC']['quotes']['USD']['price'], 2)
     
     change24h_pct = round(data_BTC['data']['currency']['BTC']['quotes']['USD']['change24Hr']['percent'],2)
@@ -62,7 +64,7 @@ def update(i):
     
     
     # dataframe price and date - history
-    btc = pd.read_csv('dataset/price_date.csv')
+    btc = pd.read_csv('../dataset/price_date.csv')
     
     # convert object to pandas datetime feature.
     btc['date'] = pd.to_datetime(btc['date'])
