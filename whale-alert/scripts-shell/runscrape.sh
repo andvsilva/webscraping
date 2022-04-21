@@ -2,6 +2,6 @@
 
 while :
 do
-    python scrapeinfo.py
+    python ../source-code/scrapewhale.py
     sleep 2s
 done

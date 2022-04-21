@@ -11,7 +11,6 @@
 
 # importing libraries
 import time
-from datetime import datetime
 from icecream import ic
 import pandas as pd
 from datetime import datetime
@@ -23,8 +22,6 @@ import gc
 from sys import getsizeof
 import time
 import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
 from colored import fore, back, style
 import toolkit as tool
 import snoop
@@ -145,7 +142,7 @@ while True:
     # Specify a single transaction from the last 10 minutes
     start_time = int(time.time() - 600)
 
-    readable = time.ctime()
+    #readable = time.ctime()
 
     date_time = datetime.fromtimestamp(start_time)
 

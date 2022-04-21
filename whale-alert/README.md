@@ -37,14 +37,16 @@ This metric shows a correlation with the price of BTC, because more BTCs flowing
 
 In Summary for this article, I will describe how to build the framework(Using one python package avaliable) to get the data and to make the analysis:
 
-- [Setting the environment to build the framework]()
-- [Build the API using the Whale Alert framework]().
-- [Analysis the data by making the plots of the Inflow and Outflow of BTC]().
+- [1 - Setting the environment to build the framework]()
+- [2 - Build the API using the Whale Alert framework]()
+  - [2.1 - Whale Alert API How does it works?]()
+  - [2.2 - Code to scrape the data from the Whale Alert API]()
+- [3 - Analysis the data by making the plots of the Inflow and Outflow of BTC]()
 
 **NOTE**: For this tutorial I will use the Linux Ubuntu 20 to do everything. If you are using Windows the commands will be similars and check on the internet to see how to make tutorial on Windows to install the framework to develop this API.
 
 
-### 1 - Setting the environment to build the framework API.
+### 1 - Setting the environment to build the framework API
 
 First, you need to have the python and pip installed:
 
@@ -233,7 +235,9 @@ When you run the source code, you will see the following result, one BTC transac
 
 ![](images/txo.png)
 
-After this point, I will develop the source code step-by-step of the project to scrape the data from the Whale Alert API and store in a CSV file. 
+After this point, I will develop the source code step-by-step of the project to scrape the data from the Whale Alert API and store in a CSV file.
+
+### 2.2 - Code to scrape the data from the Whale Alert API
 
 ## 3 - Analysis the data by making the plots of the Inflow and Outflow of BTC
 
