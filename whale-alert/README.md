@@ -38,8 +38,8 @@ This metric shows a correlation with the price of BTC, because more BTCs flowing
 In Summary for this article, I will describe how to build the framework(Using one python package avaliable) to get the data and to make the analysis:
 
 - [Setting the environment to build the framework]()
-- [Build the API using the Whale Alert framework to get BTC blockchain transaction data]().
-- [Analysis the data, making plots to compare the Inflow and Outflow of BTCs and search one way to quantify a correlation with the price]().
+- [Build the API using the Whale Alert framework]().
+- [Analysis the data by making the plots of the Inflow and Outflow of BTC]().
 
 **NOTE**: For this tutorial I will use the Linux Ubuntu 20 to do everything. If you are using Windows the commands will be similars and check on the internet to see how to make tutorial on Windows to install the framework to develop this API.
 
@@ -222,6 +222,8 @@ When you run the source code, you will see the following result, one BTC transac
 
 ![](images/txo.png)
 
+
+## 3 - Analysis the data by making the plots of the Inflow and Outflow of BTC
 
 ## References
 
