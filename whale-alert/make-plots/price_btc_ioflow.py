@@ -42,7 +42,7 @@ def update(i):
     
     # loading data feather format
     database_txo = pd.read_csv('../dataset/database_txo.csv')
-    database_txo = database_txo.drop(columns=['amount_coin','amount_usd','id','date'])
+    #database_txo = database_txo.drop(columns=['amount_coin','amount_usd','id','date'])
     database_txo = database_txo.dropna()
     
     # get BTC price in USD
@@ -72,7 +72,16 @@ def update(i):
     ymax_lim = btc['price_btc'].max()
     ymin_lim = btc['price_btc'].min()
     
-    #plt.text(6, major_height+80, '@andvsilva_', dict(size=15))
+    coin_max = database_txo_btc['amount_coin']
+    usd_max = database_txo_btc['amount_usd']
+    
+    idxmax = coin_max.idxmax()
+    
+    coin_max = coin_max.max()
+    usd_max = usd_max.max()
+    
+    date_max = database_txo_btc.loc[idxmax, 'date']
+    print(f'txo-> maximum amount:  {coin_max} BTC ($ {usd_max}) USD - date: {date_max})')
     
     ax.cla()
     plt.xticks(rotation=0)
@@ -110,6 +119,7 @@ def update(i):
         #yscale = yscale*1.001
         
     #plt.text(x_mean-0.016, 0.99*price_btc+diff_space, f'{now}    1 BTC - ${price_btc} USD - change 24h: {change24h_pct}%', dict(size=14), color = 'black')
+    plt.vlines(x=x_mean, ymin = ymin_lim, ymax= ymax_lim, colors='teal', ls='--', lw=2, label='vline_multiple - partial height')
     plt.savefig("../images/price_btc_ioflow.pdf", dpi=150)
     plt.savefig("../images/price_btc_ioflow.png", dpi=150)
     plt.grid(True)
