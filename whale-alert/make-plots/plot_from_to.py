@@ -37,7 +37,7 @@ def update(i):
     now = datetime.now().strftime("%Y-%m-%d  %H:%M:%S")
     
     # loading data feather format
-    database_txo = pd.read_csv('dataset/database_txo.csv')
+    database_txo = pd.read_csv('../dataset/database_txo.csv')
     database_txo = database_txo.drop(columns=['amount_coin','amount_usd','id','date'])
     database_txo = database_txo.dropna()
     
@@ -115,7 +115,7 @@ def update(i):
             
     ax.set_ylim([0, major_height*scale_size])
     
-    plt.text(6, major_height+10, '@andvsilva_', dict(size=15))
+    plt.text(6, major_height+90, '@andvsilva_', dict(size=15))
     plt.text(2.1, major_height+2, f'{now}    1 BTC - ${price_btc} USD', dict(size=17), color = 'orange')
     plt.xticks(rotation=10)
     plt.grid(True)

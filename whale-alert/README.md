@@ -239,6 +239,17 @@ After this point, I will develop the source code step-by-step of the project to 
 
 ### 2.2 - Code to scrape the data from the Whale Alert API
 
+Let's to work, first we need to collect the data from the Whale Alert API and store it in a CSV file. To do this, you can run the source code ([github-repo](https://github.com/andvsilva/webscraping/blob/master/whale-alert/source-code/scrapewhale.py)). 
+
+You already have an idea how the scrape Whale Alert API works, as showed in the example above.
+The following image shows the result of the collect of the data from the Whale Alert, where we have the counting of the transactions **inflow** and **outflow** with from to destiny - "from to" ('unknown-unknown', 'unknown-exchange','exchange-unknown' and 'exchange-exchange').
+
+![](images/countplot_from_to.png)
+
+To generates this chart, first you need to run the source code to make the scrape  and second run the [code make plot](https://github.com/andvsilva/webscraping/blob/master/whale-alert/make-plots/plot_from_to_usd.py).
+
+
+
 ## 3 - Analysis the data by making the plots of the Inflow and Outflow of BTC
 
 ## References
