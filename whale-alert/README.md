@@ -240,15 +240,51 @@ After this point, I will develop the source code step-by-step of the project to 
 ### 2.2 - Collect the data from the Whale Alert API
 
 You already have an idea how the scrape Whale Alert API works, as showed in the example above.
-The following image shows the result of the collect of the data from the Whale Alert, where we have the counting of the transactions **inflow** and **outflow** with from to destiny - "from to" ('unknown-unknown', 'unknown-exchange','exchange-unknown' and 'exchange-exchange').
-
-![](images/countplot_from_to.png)
 
 Let's to work, first we need to collect the data from the Whale Alert API and store it in a CSV file. To do this, you can run the source code ([github-repo](https://github.com/andvsilva/webscraping/blob/master/whale-alert/source-code/scrapewhale.py)) and second run the [code make plot](https://github.com/andvsilva/webscraping/blob/master/whale-alert/make-plots/plot_from_to_usd.py).
 
+```bash
+# run the script to collect the data
+~/whale-alert/scripts-shell on  master! ⌚ 18:44:26
+$ source runscrape.sh
+0 ethereum: 844167.44 USDT (844167.44 USD): from unknown() to unknown() id: 1832775765, 2022-04-23 18:39:35
+1 ethereum: 1032427.4 USDT (1032427.4 USD): from exchange(ftx) to unknown() id: 1832775897, 2022-04-23 18:41:02
+2 tron: 500000 USDT (500000 USD): from unknown() to unknown() id: 1832775963, 2022-04-23 18:42:24
+3 ethereum: 1032427.4 USDT (1032427.4 USD): from unknown() to unknown() id: 1832776140, 2022-04-23 18:43:40
+4 ethereum: 508875.72 USDT (508875.72 USD): from unknown() to unknown() id: 1832776323, 2022-04-23 18:46:17
+5 tron: 1000000 USDT (1000000 USD): from unknown() to unknown() id: 1832776310, 2022-04-23 18:46:30
+6 bitcoin: 96.48055 BTC (3845014.5 USD): from unknown() to unknown() id: 1832776540, 2022-04-23 18:47:58
+...
+20 bitcoin: 22.371284 BTC (890562.94 USD): from unknown() to unknown() id: 1832786314, 2022-04-23 19:17:00
+21 bitcoin: 18.748873 BTC (746360.9 USD): from unknown() to unknown() id: 1832784061, 2022-04-23 19:17:29
+******************************************************************************************************
+>>>>>>>>>> WARNING: WHALE MOVING FUNDS <<<<<<<<<<<<<
+>>>  749.99915 ETH MOVED - ID: 1832786268
+******************************************************************************************************
+22 ethereum: 749.99915 ETH (2219658.5 USD): from unknown() to exchange(ftx) id: 1832786268, 2022-04-23 19:19:19
+23 ethereum: 403.994 ETH (1196410.5 USD): from exchange(okex) to unknown() id: 1832787354, 2022-04-23 19:20:09
+24 bitcoin: 50.49085 BTC (2023115.2 USD): from unknown() to unknown() id: 1832786351, 2022-04-23 19:22:08
+...
+```
 
+Now we already have the Blockchain data, we can analysis the transaction history and looking for insights that are related to the price BTC. I will examine the data in the next section.
 
 ## 3 - Analysis the data by making the plots of the Inflow and Outflow of BTC
+
+In the analysis, I start look in the flow of BTC transactions, i.e. the number of transactions ```from to``` (inflow and outflow).
+
+The following image shows the result of the collect of the data from the Whale Alert, where we have the counting of the transactions **inflow** and **outflow** with from to destiny - "from to" ('unknown-unknown', 'unknown-exchange','exchange-unknown' and 'exchange-exchange').
+
+```Inflow and Outflow of transactions:```
+| ![](images/countplot_from_to.png)
+|:--:| 
+| Fig.1: Counting of InFlow and OutFlow transactions **from to** as described in the legend of the plot.|
+
+```bash
+# to generate the plot above run the script:
+~/whale-alert/scripts-shell on  master! ⌚ 11:55:30
+$ source runplot_counting_txo.sh
+```
 
 ## References
 
