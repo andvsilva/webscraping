@@ -1,7 +1,12 @@
-# On-Chain Analysis for blockchain data using the Whale Alert API framework in python.
+# On-Chain Analysis using the Whale Alert API framework in python.
+
+First, what is On-Chain Analysis? 
+
+To explain this in simple terms, On-Chain Analysis is a way to look into the data and to get extract insights
+about the blockchain fundamentals, as the blockchain is the technology behind the bitcoin cryptocurrency, basically, blockchain is a public ledger where the transactions are recorded and immutable database. This database stored information about the currenty state of the crypto market and analysing
 
 A simple tutorial of how to implement On-Chain Analysis for one
-specific metric called Inflow and 
+specific metric called Inflow and
 Outflow transactions of BTC to exchanges using the [Whale Alert API](https://docs.whale-alert.io/#introduction). In the market is a 
 consensus that this metric shows a correlation with the price of BTC. I am not an expert in On-Chain Analysis, this is one way to work around with topic and to learn and to study more about it.
 
