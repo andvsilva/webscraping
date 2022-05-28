@@ -3,12 +3,41 @@
 First, what is On-Chain Analysis? 
 
 To explain this in simple terms, On-Chain Analysis is a way to look into the data and to get extract insights
-about the blockchain fundamentals, as the blockchain is the technology behind the bitcoin cryptocurrency, basically, blockchain is a public ledger where the transactions are recorded and immutable database. This database stored information about the currenty state of the crypto market and analysing
+about the [blockchain](https://academy.binance.com/en/articles/what-is-blockchain-technology-a-comprehensive-guide-for-beginners) fundamentals, as the blockchain is the technology behind the [bitcoin cryptocurrency](https://academy.binance.com/en/articles/what-is-bitcoin) (BTC), basically, blockchain is a public ledger where the transactions are recorded in an immutable database. This database has information to determine crypto market sentiment, sometimes called of On-Chain metrics.
 
-A simple tutorial of how to implement On-Chain Analysis for one
-specific metric called Inflow and
-Outflow transactions of BTC to exchanges using the [Whale Alert API](https://docs.whale-alert.io/#introduction). In the market is a 
-consensus that this metric shows a correlation with the price of BTC. I am not an expert in On-Chain Analysis, this is one way to work around with topic and to learn and to study more about it.
+The On-Chain metrics are measured that can provide a big picture about the
+Bitcoin network, and the metrics are build through the blockchain data.
+
+Below I will cite the main On-Chain metrics:
+
+- Exchanges inflows/outflows
+- Active Address
+- BTC Whale Wallet balance (Wallets with more than 1000 BTC)
+- BTC hashrate
+- BTC mining difficulty
+- Mining Reward Value (24hr)
+- liquid and illiquid BTC supply
+
+and much more metrics can be found on the most popular providers of on-chain data, like the [Coin Metrics](https://coinmetrics.io/) and [Glassnode](https://glassnode.com/).
+
+
+The main objective to make On-Chain Analysis is to look into data that 
+is basically a thermometer of BTC network and the market to get the current and future price trends of the BTC, based on the metrics.
+
+In this simple tutorial, we will see how to implement On-Chain Analysis for one specific metric called Inflow and Outflow transactions of BTC to exchanges using the [Whale Alert API](https://docs.whale-alert.io/#introduction). 
+
+The [Whale Alert API](https://docs.whale-alert.io/#introduction) already provide all the database organized, we just need to make the request the transaction, below are showed some transactions where each transaction contains, the type
+of blockchain, the amount of coins, the amount in US dollars (based on the current transaction price), the origin(```from``` unknown or exchange) of the transaction transferred to another address (```to``` unknown or exchange) and the datetime of the transaction:
+
+```bash
+0 ethereum: 578917.8 USDT (578917.8 USD): from unknown() to unknown() id: 1849956779, 2022-05-27 05:09:42
+1 tron: 2500000 USDT (2500000 USD): from unknown() to exchange(ftx) id: 1849956880, 2022-05-27 05:10:18
+2 tron: 1000000 USDT (1000000 USD): from unknown() to unknown() id: 1849957032, 2022-05-27 05:10:51
+3 bitcoin: 22.110264 BTC (642751.44 USD): from unknown() to unknown() id: 1849961425, 2022-05-27 05:11:00
+4 bitcoin: 19.043213 BTC (553591.44 USD): from unknown() to unknown() id: 1849957407, 2022-05-27 05:11:18
+```
+
+In the market is a consensus that this metric shows a correlation with the price of BTC. I am not an expert in On-Chain Analysis, this is one way to work around with the topic and to learn and to study more about it.
 
 I strong recomend NOT to use this tutorial to make an investiment decision, and the proposal of this example is to study the topic only.
 
@@ -29,7 +58,7 @@ ledger technology are the foundation for based digital assets.
 ```
 -->
 
-In this article, I will explain and show how to use the [Whale Alert API](https://docs.whale-alert.io/#introduction) to track transaction history data and to make your own analysis from differents blockchains, like Bitcoin, Ethereum, Ripple and others, for more information read the documentation [Whale Alert API](https://docs.whale-alert.io/#introduction).
+For this article, I will explain and show how to use the [Whale Alert API](https://docs.whale-alert.io/#introduction) to track transaction history data and to make your own analysis from differents blockchains, like Bitcoin, Ethereum, Ripple and others, for more information read the documentation provide by the [Whale Alert API](https://docs.whale-alert.io/#introduction).
 
 In the implementation I will focus **On Chain Analysis** of the BTC blockchain transaction data to look deep dive into **the metric Inflow and Outflow of BTCs**:
 
@@ -40,7 +69,7 @@ In the implementation I will focus **On Chain Analysis** of the BTC blockchain t
 
 This metric shows a correlation with the price of BTC, because more BTCs flowing to the exchanges, there are a high probability that these BTCs can be sold in the market, i.e. a high strong BTC sales pressure making the price go down, and by the contrary, we expect the price go up, because a high flow of BTCs are going out from exchange to unknown(wallet):
 
-In Summary for this article, I will describe how to build the framework(Using one python package avaliable) to get the data and to make the analysis:
+In Summary for this article, I will describe how to build the framework (Using one python package avaliable) to get the data and to make the analysis:
 
 - [1 - Setting the environment to build the framework]()
 - [2 - Build the API using the Whale Alert framework]()
@@ -48,7 +77,7 @@ In Summary for this article, I will describe how to build the framework(Using on
   - [2.2 - Code to scrape the data from the Whale Alert API]()
 - [3 - Analysis the data by making the plots of the Inflow and Outflow of BTC]()
 
-**NOTE**: For this tutorial I will use the Linux Ubuntu 20 to do everything. If you are using Windows the commands will be similars and check on the internet to see how to make tutorial on Windows to install the framework to develop this API.
+**NOTE**: For this tutorial I will use the Linux Ubuntu 20 to do everything. If you are using Windows the commands will be similars and check on the internet to see how to make this tutorial on Windows to install the framework to develop this API.
 
 
 ### 1 - Setting the environment to build the framework API
@@ -75,9 +104,9 @@ $ pip -V
 pip 21.2.4 from ~/anaconda3/lib/python3.9/site-packages/pip (python 3.9)
 ```
 
-I strong suggest to create python virtual environment to be a self-contained directory tree that includes a Python installation and number of additional packages(This is good practice when you are developing a project, to know more about see the article [A Guide to Python Good Practices](https://towardsdatascience.com/a-guide-to-python-good-practices-90598529da35)). Below I will the main steps to make this:
+I strong suggest to create python virtual environment to be a self-contained directory tree that includes a Python installation and number of additional packages (This is good practice when you are developing a project, to know more about see the article [A Guide to Python Good Practices](https://towardsdatascience.com/a-guide-to-python-good-practices-90598529da35)). Below I will make the main steps to do this:
 
-let's begin by installing the ```python3-venv```  package that provides the ```venv``` module
+Let's begin by installing the ```python3-venv```  package that provides the ```venv``` module
 
 ```bash
 $ sudo apt install python3-venv
