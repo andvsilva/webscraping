@@ -67,7 +67,7 @@ In the implementation I will focus **On Chain Analysis** of the BTC blockchain t
 - ```from unknown to exchange```
 - ```from unknown(wallet) to unknown(wallet)```
 
-This metric shows a correlation with the price of BTC, because more BTCs flowing to the exchanges, there are a high probability that these BTCs can be sold in the market, i.e. a high strong BTC sales pressure making the price go down, and by the contrary, we expect the price go up, because a high flow of BTCs are going out from exchange to unknown(wallet):
+This metric shows a correlation with the price of BTC, because more BTCs flowing to the exchanges, there are a high probability that these BTCs can be sold in the market, i.e. a high strong BTC sales pressure making the price go down, and by the contrary, we expect the price go up, because a high flow of BTCs are going out from exchange to unknown (wallet):
 
 In Summary for this article, I will describe how to build the framework (Using one python package avaliable) to get the data and to make the analysis:
 
@@ -199,7 +199,7 @@ For this tutorial you can use the ```free plan```. After you have created the AP
 How can I keep the API save? you can set as environment variable in bash shell. To do this open ```~/.bashrc``` and then in the final of the file add the following line:
 
 ```bash
-export api_key_whale='here go you api kei'
+export api_key_whale='here go you api key'
 ```
 
 Save and exit the file. After that you need to source the file ```~/.bashrc``` like this:
@@ -303,7 +303,7 @@ $ source runscrape.sh
 
 Now we already have the Blockchain data, we can analysis the transaction history and looking for insights that are related to the price BTC. I will examine the data in the next section.
 
-## 3 - Analysis the data by making the plots of the Inflow and Outflow of BTC
+## 3 - Analysis the data from Inflow and Outflow of BTC
 
 In the analysis, I start look in the flow of BTC transactions, i.e. the number of transactions ```from to``` (inflow and outflow).
 
@@ -312,13 +312,23 @@ The following image shows the result of the collect of the data from the Whale A
 ```Inflow and Outflow of transactions:```
 | ![](images/countplot_from_to.png)
 |:--:| 
-| Fig.1: Counting of InFlow and OutFlow transactions **from to** as described in the legend of the plot.|
+| Fig.2: Counting of InFlow and OutFlow transactions **from to** as described in the legend of the plot.|
 
 ```bash
 # to generate the plot above run the script:
 ~/whale-alert/scripts-shell on  master! ⌚ 11:55:30
 $ source runplot_counting_txo.sh
 ```
+
+The next step is deep look into BTC transactions ```from to``` and get the higher amount transactions to seek and investigate if exist a significant
+correlaction with the BTC price.
+
+```BTC price versus date:```
+| ![](images/price_btc_ioflow_article.png)
+|:--:| 
+| Fig.1: BTC price versus date with a percentage of transactions **from to** and Alerts that shows the higher transactions as described in the legend of the plot.|
+
+This plot shows the higher transactions ```from to``` with amount of BTC moved for one price.
 
 ## References
 

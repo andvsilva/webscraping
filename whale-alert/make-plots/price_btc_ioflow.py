@@ -109,13 +109,13 @@ def update(i):
     x_mean = (xmax+xmin)/2
     y_mean = (ymax+ymin)/2
     
-    xscale = 1.0
+    xscale = 1.00
     yscale = 1.05
     diff_space=0
     
     for ifrom_to in from_to_stat:
-        plt.text(x_mean*xscale, 1.0004*ymax_lim-diff_space, f'{ifrom_to}: {from_to_stat[ifrom_to]} %', fontsize = 14)
-        diff_space -= 60
+        plt.text(x_mean*xscale, 0.989*ymax_lim-diff_space, f'{ifrom_to}: {from_to_stat[ifrom_to]} %', fontsize = 14)
+        diff_space -= 80
     
             
     #plt.text(x_mean-0.016, 0.99*price_btc+diff_space, f'{now}    1 BTC - ${price_btc} USD - change 24h: {change24h_pct}%', dict(size=14), color = 'black')
@@ -151,8 +151,8 @@ def update(i):
         color = colors[icolor]
         
         plt.axvline(pd.Timestamp(f'{year}-{month}-{day} {HH}:{MM}:{SS}'), ymin=0.05, ymax=0.58, color = f'{color}', linestyle='--', linewidth=1)
-        plt.text(pd.Timestamp(f'{year}-{month}-{day} {HH}:{MM}:{SS}'), 0.998*ymin_lim+ysprad, f' ({from_to}):  {coin_max} BTC - {date_max}', fontsize = 12, color=f'{color}')    
-        ysprad += 40
+        plt.text(pd.Timestamp(f'{year}-{month}-{day} {HH}:{MM}:{SS}'), 0.999*ymin_lim+ysprad, f' {from_to}:  {coin_max} BTC - {date_max}', fontsize = 11, color=f'{color}')    
+        ysprad += 60
         icolor += 1 
         
     #plt.text(pd.Timestamp(f'{year}-{month}-{day} {HH}:{MM}:{SS}'), 0.998*ymin_lim, f' ({from_to}):  {coin_max} BTC - {date_max}', fontsize = 12, color='red')
