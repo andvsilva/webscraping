@@ -67,7 +67,7 @@ In the implementation I will focus **On Chain Analysis** of the BTC blockchain t
 - ```from unknown to exchange```
 - ```from unknown(wallet) to unknown(wallet)```
 
-This metric shows a correlation with the price of BTC, because more BTCs flowing to the exchanges, there are a high probability that these BTCs can be sold in the market, i.e. a high strong BTC sales pressure making the price go down, and by the contrary, we expect the price go up, because a high flow of BTCs are going out from exchange to unknown (wallet):
+This metric shows a correlation with the price of BTC, because more BTCs flowing to the exchanges, there is a high probability that these BTCs can be sold in the market, i.e. a high strong BTC sales pressure making the price go down, and by the contrary, we expect the price go up, because a high flow of BTCs are going out from exchange to unknown (wallet):
 
 In Summary for this article, I will describe how to build the framework (Using one python package avaliable) to get the data and to make the analysis:
 
@@ -320,7 +320,7 @@ The following image shows the result of the collect of the data from the Whale A
 $ source runplot_counting_txo.sh
 ```
 
-The next step is deep look into BTC transactions ```from to``` and get the higher amount transactions to seek and investigate if exist a significant
+The next step is deep look into BTC transactions ```from to``` and get the higher amount of BTC in transactions to seek and investigate if exist a significant
 correlaction with the BTC price.
 
 ```BTC price versus date:```
@@ -328,7 +328,27 @@ correlaction with the BTC price.
 |:--:| 
 | Fig.1: BTC price versus date with a percentage of transactions **from to** and Alerts that shows the higher transactions as described in the legend of the plot.|
 
-This plot shows the higher transactions ```from to``` with amount of BTC moved for one price.
+This plot shows the higher amount of BTC moved ```from to``` with the price at the moment of the transaction. The plot also shows the percentage of transactions for each transaction type, with the following values:
+
+- exchange-unknown: 1200 BTC (~34 Million of USD)
+- unknown-unknown: 7410.07 BTC (~215 Million of USD)
+- exchange-exchange: 399.98 BTC (~11.5 Million of USD)
+- unknown-exchange: 1395.49 BTC (~40.2 Million of USD)
+
+From this analysis, the result suggest that there is
+a correlation, But I cannot yet make any conclusion, I need to work around and make more analysis or looking for evidences
+to support my thesis. For the transaction (exchange-unknown) showed on the plot, we see that the price rise up about 5%, this
+is what we were expecting, the price goes up.
+
+In my opinion, I think that the percentage of amount of transactions can provide a good level of precision for the macro sentiment about the crypto market, i.e., high amount of transactions (exchange-unknown) suggest that the price goes up, because the amount of BTC on the exchange is low and demand increase, and the contrary can also happen push the price down.
+
+That is it for now, this article shows only how to work with Whale Alert API in python package to do analysis from blockchain data, and now up to you to try improve this framework showed or to build your own analysis, to seek for insights from data.
+
+Thank you for taking the time to read this article! Stay turn and never stop, the journey is long and we need to be strong and disciplined to reach the success in the field.
+
+To know more about me see my [webpage](https://medium.com/r/?url=https%3A%2F%2Fandsilvadrcc.gitlab.io%2Fmy-web-page-andre-vieira%2F).
+
+Cheers! Until the next time :)
 
 ## References
 
