@@ -320,8 +320,16 @@ The following image shows the result of the collect of the data from the Whale A
 $ source runplot_counting_txo.sh
 ```
 
-The next step is deep look into BTC transactions ```from to``` and get the higher amount of BTC in transactions to seek and investigate if exist a significant
-correlaction with the BTC price.
+The next step is deep look into BTC transactions ```from to``` and get the higher amount of BTC in transactions to seek and investigate if exist a significant correlaction with the BTC price.
+
+Now to get the price versus date plot, you just need to run the following command line:
+
+```bash
+## terminal
+## pwd to the folder - make-plots
+~/webscraping/whale-alert/make-plots on  master! ⌚ 17:43:00
+$ python price_btc_ioflow.py
+```
 
 ```BTC price versus date:```
 | ![](images/price_btc_ioflow_article.png)
@@ -348,7 +356,7 @@ Thank you for taking the time to read this article! Stay turn and never stop, th
 
 To know more about me see my [webpage](https://medium.com/r/?url=https%3A%2F%2Fandsilvadrcc.gitlab.io%2Fmy-web-page-andre-vieira%2F).
 
-Cheers! Until the next time :)
+Cheers! Until the next time. :)
 
 ## References
 
@@ -357,4 +365,5 @@ Cheers! Until the next time :)
 - [The Scalability Trilemma in Blockchain](https://aakash-111.medium.com/the-scalability-trilemma-in-blockchain-75fb57f646df)
 - [On Sound Money](https://medium.com/galaxy-digital-research/on-sound-money-afc0619697b3)
 - [BITCOIN’S ON-CHAIN MARKET CYCLES](https://bitcoinmagazine.com/markets/bitcoins-on-chain-market-cycles)
+- [An Introduction To On-Chain Analysis](https://medium.com/quantum-economics/an-introduction-to-on-chain-analysis-9d233ec1e418)
 - [Carbon -> Create and share beautiful images of your source code](https://carbon.now.sh/)
