@@ -23,6 +23,7 @@ import time
 import matplotlib.dates as mdates
 from matplotlib.dates import DateFormatter
 import datetime as dt
+from icecream import ic
 
 coindesk_api = 'https://production.api.coindesk.com/v1/currency/ticker?currencies=BTC'
 
@@ -42,12 +43,15 @@ def update(i):
     
     # loading data feather format
     database_txo = pd.read_csv('../dataset/database_txo.csv')
+    
+    # delete all the rows with NaN
     database_txo = database_txo.dropna()
     
     # get BTC price in USD
     data_BTC = requests.get(coindesk_api).json()
-    price_btc = round(data_BTC['data']['currency']['BTC']['quotes']['USD']['price'], 2)
     
+    # parsing and set precision...
+    price_btc = round(data_BTC['data']['currency']['BTC']['quotes']['USD']['price'], 2)
     change24h_pct = round(data_BTC['data']['currency']['BTC']['quotes']['USD']['change24Hr']['percent'],2)
     
     # BTC only
@@ -56,15 +60,24 @@ def update(i):
     stats_from_to = database_txo_btc['from_to'].value_counts(normalize=True).map('{:.2%}'.format)
     stats_from_to = dict(stats_from_to)
     
+    coins_txos = database_txo_btc[['from_to','amount_coin','amount_usd']]
+    
     from_to_stat = {}
     
     from_tos = []
     for ifrom_to in stats_from_to:
         from_to_stat[f'{ifrom_to}'] = float(stats_from_to[ifrom_to][:-1])
         from_tos.append(f'{ifrom_to}')
-        
     
+    amount_coins_txos = {}
     
+    for from_to in from_tos:
+        amount_coins = coins_txos.loc[(coins_txos["from_to"] == f'{from_to}'), 'amount_coin'].sum()
+        amount_coins_txos[f'{from_to}'] = amount_coins
+    
+    # amount   
+    #ic(amount_coins_txos)        
+                
     # dataframe price and date - history
     btc = pd.read_csv('../dataset/price_date.csv')
     
@@ -114,8 +127,9 @@ def update(i):
     diff_space=0
     
     for ifrom_to in from_to_stat:
-        plt.text(x_mean*xscale, 0.989*ymax_lim-diff_space, f'{ifrom_to}: {from_to_stat[ifrom_to]} %', fontsize = 14)
-        diff_space -= 80
+        coins_txos = amount_coins_txos[f'{ifrom_to}']
+        plt.text(x_mean*xscale, 0.989*ymax_lim-diff_space, f'{ifrom_to}: {from_to_stat[ifrom_to]} % ({coins_txos} BTC)', fontsize = 14)
+        diff_space -= 100
     
             
     #plt.text(x_mean-0.016, 0.99*price_btc+diff_space, f'{now}    1 BTC - ${price_btc} USD - change 24h: {change24h_pct}%', dict(size=14), color = 'black')

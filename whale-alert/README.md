@@ -1,9 +1,10 @@
-# On-Chain Analysis using the Whale Alert API framework in python.
+# On-Chain Analysis using the Whale Alert API framework in python
+
+The step-by-step to implement the analysis by yourself!
 
 First, what is On-Chain Analysis? 
 
-To explain this in simple terms, On-Chain Analysis is a way to look into the data and to get extract insights
-about the [blockchain](https://academy.binance.com/en/articles/what-is-blockchain-technology-a-comprehensive-guide-for-beginners) fundamentals, as the blockchain is the technology behind the [bitcoin cryptocurrency](https://academy.binance.com/en/articles/what-is-bitcoin) (BTC), basically, blockchain is a public ledger where the transactions are recorded in an immutable database. This database has information to determine crypto market sentiment, sometimes called of On-Chain metrics.
+To explain this in simple terms, On-Chain Analysis is a way to look into the data and to get extract insights about the [blockchain](https://academy.binance.com/en/articles/what-is-blockchain-technology-a-comprehensive-guide-for-beginners) fundamentals, as the blockchain is the technology behind the [bitcoin cryptocurrency](https://academy.binance.com/en/articles/what-is-bitcoin) (BTC), basically, blockchain is a public ledger where the transactions are recorded in an immutable database. This database has information to determine crypto market sentiment, sometimes called of On-Chain metrics.
 
 The On-Chain metrics are measured that can provide a big picture about the
 Bitcoin network, and the metrics are build through the blockchain data.
@@ -20,15 +21,14 @@ Below I will cite the main On-Chain metrics:
 
 and much more metrics can be found on the most popular providers of on-chain data, like the [Coin Metrics](https://coinmetrics.io/) and [Glassnode](https://glassnode.com/).
 
-
-The main objective to make On-Chain Analysis is to look into data that 
-is basically a thermometer of BTC network and the market to get the current and future price trends of the BTC, based on the metrics.
+The main objective to make On-Chain Analysis is to look into data that is basically a thermometer of BTC network and the market to get the current and future price trends of the BTC, based on the metrics.
 
 In this simple tutorial, we will see how to implement On-Chain Analysis for one specific metric called Inflow and Outflow transactions of BTC to exchanges using the [Whale Alert API](https://docs.whale-alert.io/#introduction). 
 
-The [Whale Alert API](https://docs.whale-alert.io/#introduction) already provide all the database organized, we just need to make the request the transaction, below are showed some transactions where each transaction contains, the type
+The [Whale Alert API](https://docs.whale-alert.io/#introduction) already provides all the database organized, we just need to make the request the transactions, below are showed some transactions where each transaction contains, the type
 of blockchain, the amount of coins, the amount in US dollars (based on the current transaction price), the origin(```from``` unknown or exchange) of the transaction transferred to another address (```to``` unknown or exchange) and the datetime of the transaction:
 
+<!--
 ```bash
 0 ethereum: 578917.8 USDT (578917.8 USD): from unknown() to unknown() id: 1849956779, 2022-05-27 05:09:42
 1 tron: 2500000 USDT (2500000 USD): from unknown() to exchange(ftx) id: 1849956880, 2022-05-27 05:10:18
@@ -36,10 +36,12 @@ of blockchain, the amount of coins, the amount in US dollars (based on the curre
 3 bitcoin: 22.110264 BTC (642751.44 USD): from unknown() to unknown() id: 1849961425, 2022-05-27 05:11:00
 4 bitcoin: 19.043213 BTC (553591.44 USD): from unknown() to unknown() id: 1849957407, 2022-05-27 05:11:18
 ```
+-->
+![](images/txos.png)
 
 In the market is a consensus that this metric shows a correlation with the price of BTC. I am not an expert in On-Chain Analysis, this is one way to work around with the topic and to learn and to study more about it.
 
-I strong recomend NOT to use this tutorial to make an investiment decision, and the proposal of this example is to study the topic only.
+I strongly recommend NOT to use this tutorial to make an investment decision, and the proposal of this example is to study the topic only.
 
 <!--
 Hi, I am a Bitcoin enthusiastic and maximalist (almost 99%) and since 2017 I started reading and studying about the crypto market, and now I still reading and studying more and more about it, because I believe what Bitcoin did for the first time in human history. Below the best description that I see so far about Bitcoin:
@@ -52,7 +54,7 @@ Satoshi Nakamoto proposed a decentralized peer-to-peer system
 for making and processing payments a key challenge in digital 
 payments is to prevent the same assets from being spent twice 
 the bitcoin white paper proposed a novel method for validating 
-transactions using crytography that address the so-called double 
+transactions using cryptography that address the so-called double 
 spend problem this and other innovations related to distributed 
 ledger technology are the foundation for based digital assets.
 ```
@@ -73,11 +75,11 @@ In Summary for this article, I will describe how to build the framework (Using o
 
 - [1 - Setting the environment to build the framework]()
 - [2 - Build the API using the Whale Alert framework]()
-  - [2.1 - Whale Alert API How does it works?]()
+  - [2.1 - Whale Alert API How does it work?]()
   - [2.2 - Code to scrape the data from the Whale Alert API]()
 - [3 - Analysis the data by making the plots of the Inflow and Outflow of BTC]()
 
-**NOTE**: For this tutorial I will use the Linux Ubuntu 20 to do everything. If you are using Windows the commands will be similars and check on the internet to see how to make this tutorial on Windows to install the framework to develop this API.
+**NOTE**: For this tutorial I will use the Linux Ubuntu 20 to do everything. If you are using Windows the commands will be similar and check on the internet to see how to make this tutorial on Windows to install the framework to develop this API.
 
 
 ### 1 - Setting the environment to build the framework API
@@ -104,7 +106,7 @@ $ pip -V
 pip 21.2.4 from ~/anaconda3/lib/python3.9/site-packages/pip (python 3.9)
 ```
 
-I strong suggest to create python virtual environment to be a self-contained directory tree that includes a Python installation and number of additional packages (This is good practice when you are developing a project, to know more about see the article [A Guide to Python Good Practices](https://towardsdatascience.com/a-guide-to-python-good-practices-90598529da35)). Below I will make the main steps to do this:
+I strongly suggest to create python virtual environment to be a self-contained directory tree that includes a Python installation and number of additional packages (This is good practice when you are developing a project, to know more about see the article [A Guide to Python Good Practices](https://towardsdatascience.com/a-guide-to-python-good-practices-90598529da35)). Below I will make the main steps to do this:
 
 Let's begin by installing the ```python3-venv```  package that provides the ```venv``` module
 
@@ -112,7 +114,7 @@ Let's begin by installing the ```python3-venv```  package that provides the ```v
 $ sudo apt install python3-venv
 ```
 
-If the installation was sucessfully, we can now to create your new virtual environment:
+If the installation was successful, we can now to create your new virtual environment:
 
 ```bash
 # Here you can change the name of the project as you like :)
@@ -148,10 +150,8 @@ snoop==0.4.0
 whale_alert==0.0.4
 ```
 
-Now you can to install all the packages with only one command, you need to save the package names above in one file called:
-```requirements.txt``` on the folder of the project
-
-by typing the following command:
+Now you can install all the packages with only one command, you need to save the package names above in one file called
+```requirements.txt``` on the folder of the project by typing the following command:
 
 ```bash
 $ pip install -r requirements.txt
@@ -214,8 +214,7 @@ To check if everything is right, just type on the terminal:
 $ echo $api_key_whale
 ```
 
-This will return the api key that was stored on the bash shell. 
-
+This will return the api key that was stored on the bash shell.
 Now to get the api key in python, you only need:
 
 ```bash
@@ -251,7 +250,7 @@ After of All the settings. We are already to start. First, I will show how to us
 <!-- https://replit.com/@andvsilva/whalealert#main.pypi -->
 
 
-### 2.1 - Whale Alert API How does it works?
+### 2.1 - Whale Alert API How does it work?
 
 To begin this example, first install the python library of the Whale Alert API using pip:
 ```bash
@@ -312,7 +311,7 @@ The following image shows the result of the collect of the data from the Whale A
 ```Inflow and Outflow of transactions:```
 | ![](images/countplot_from_to.png)
 |:--:| 
-| Fig.2: Counting of InFlow and OutFlow transactions **from to** as described in the legend of the plot.|
+| Fig.2: The Counting of InFlow and OutFlow transactions **from to** as described in the legend of the plot.|
 
 ```bash
 # to generate the plot above run the script:
@@ -320,7 +319,7 @@ The following image shows the result of the collect of the data from the Whale A
 $ source runplot_counting_txo.sh
 ```
 
-The next step is deep look into BTC transactions ```from to``` and get the higher amount of BTC in transactions to seek and investigate if exist a significant correlaction with the BTC price.
+The next step is a deep look into BTC transactions ```from to``` and get the highest amount of BTC in transactions to seek and investigate if exist a significant correlaction with the BTC price.
 
 Now to get the price versus date plot, you just need to run the following command line:
 
@@ -338,23 +337,20 @@ $ python price_btc_ioflow.py
 
 This plot shows the higher amount of BTC moved ```from to``` with the price at the moment of the transaction. The plot also shows the percentage of transactions for each transaction type, with the following values:
 
-- exchange-unknown: 1200 BTC (~34 Million of USD)
-- unknown-unknown: 7410.07 BTC (~215 Million of USD)
-- exchange-exchange: 399.98 BTC (~11.5 Million of USD)
-- unknown-exchange: 1395.49 BTC (~40.2 Million of USD)
+- exchange-unknown: 1200 BTC (~34 Million USD)
+- unknown-unknown: 7410.07 BTC (~215 Million USD)
+- exchange-exchange: 399.98 BTC (~11.5 Million USD)
+- unknown-exchange: 1395.49 BTC (~40.2 Million USD)
 
-From this analysis, the result suggest that there is
-a correlation, But I cannot yet make any conclusion, I need to work around and make more analysis or looking for evidences
-to support my thesis. For the transaction (exchange-unknown) showed on the plot, we see that the price rise up about 5%, this
-is what we were expecting, the price goes up.
+From this analysis, the result suggests that there is a correlation, But I cannot yet make any conclusion, I need to work around and do more analysis or looking for evidences to support my thesis. Regarding the transaction (exchange-unknown) showed on the plot, we see that the price rise up about 5%, this is what we were expecting, the price goes up.
 
 In my opinion, I think that the percentage of amount of transactions can provide a good level of precision for the macro sentiment about the crypto market, i.e., high amount of transactions (exchange-unknown) suggest that the price goes up, because the amount of BTC on the exchange is low and demand increase, and the contrary can also happen push the price down.
 
-That is it for now, this article shows only how to work with Whale Alert API in python package to do analysis from blockchain data, and now up to you to try improve this framework showed or to build your own analysis, to seek for insights from data.
+That is it for now, this article shows only how to work with Whale Alert API in python package doing analysis of blockchain data, and now up to you to try improve this framework showed or to build your own analysis, to seek insights from data.
 
 Thank you for taking the time to read this article! Stay turn and never stop, the journey is long and we need to be strong and disciplined to reach the success in the field.
 
-To know more about me see my [webpage](https://medium.com/r/?url=https%3A%2F%2Fandsilvadrcc.gitlab.io%2Fmy-web-page-andre-vieira%2F).
+To know more about me see my [webpage](https://andsilvadrcc.gitlab.io/my-web-page-andre-vieira/).
 
 Cheers! Until the next time. :)
 
