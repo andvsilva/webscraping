@@ -24,6 +24,29 @@ import matplotlib.dates as mdates
 from matplotlib.dates import DateFormatter
 import datetime as dt
 from icecream import ic
+import notify2
+
+def notify(order, symbol_currency, now):
+    
+    ICON_PATH = "../images/btc.jpg" # This is not working, FIXME, I do not know why.
+
+    # initialise the d-bus connection
+    notify2.init("Cryptocurrency reach the price")
+
+    # create Notification object
+    n = notify2.Notification("Crypto Notifier", icon = ICON_PATH)
+
+    # Set the urgency level
+    n.set_urgency(notify2.URGENCY_NORMAL)
+
+    # Set the timeout
+    n.set_timeout(1000)
+
+    # Update the content
+    n.update(f"{now}", order)
+
+    # Show the notification
+    n.show()
 
 coindesk_api = 'https://production.api.coindesk.com/v1/currency/ticker?currencies=BTC'
 
@@ -122,14 +145,14 @@ def update(i):
     x_mean = (xmax+xmin)/2
     y_mean = (ymax+ymin)/2
     
-    xscale = 1.00
+    xscale = 1.000055
     yscale = 1.05
     diff_space=0
     
     for ifrom_to in from_to_stat:
-        coins_txos = amount_coins_txos[f'{ifrom_to}']
+        coins_txos = round(amount_coins_txos[f'{ifrom_to}'], 4)
         plt.text(x_mean*xscale, 0.989*ymax_lim-diff_space, f'{ifrom_to}: {from_to_stat[ifrom_to]} % ({coins_txos} BTC)', fontsize = 14)
-        diff_space -= 100
+        diff_space -= 140
     
             
     #plt.text(x_mean-0.016, 0.99*price_btc+diff_space, f'{now}    1 BTC - ${price_btc} USD - change 24h: {change24h_pct}%', dict(size=14), color = 'black')
@@ -164,6 +187,18 @@ def update(i):
         
         color = colors[icolor]
         
+        symbol_currency = 'BTC'
+        
+        #if(coin_max > 1000):
+        #
+        #    if(f'{from_to}' == 'exchange-unknown'):
+        #        order = 'Buy now!'
+        #        notify(order, symbol_currency, now)
+        #        
+        #    if(f'{from_to}' == 'unknown-exchange'):
+        #        order = 'Sell now!'
+        #        notify(order, symbol_currency, now)
+        
         plt.axvline(pd.Timestamp(f'{year}-{month}-{day} {HH}:{MM}:{SS}'), ymin=0.05, ymax=0.58, color = f'{color}', linestyle='--', linewidth=1)
         plt.text(pd.Timestamp(f'{year}-{month}-{day} {HH}:{MM}:{SS}'), 0.999*ymin_lim+ysprad, f' {from_to}:  {coin_max} BTC - {date_max}', fontsize = 11, color=f'{color}')    
         ysprad += 60
@@ -176,7 +211,7 @@ def update(i):
     plt.grid(True)
     #time.sleep(10)
 
-ani = animation.FuncAnimation(fig, update, frames = 5)
+ani = animation.FuncAnimation(fig, update, frames = 10)
 
     
 plt.show()
