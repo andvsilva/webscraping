@@ -5,6 +5,7 @@ import pandas as pd
 URL = "https://www.fundsexplorer.com.br/ranking"
 
 html_text = requests.get(URL).text
+print(html_text)
 soup = BeautifulSoup(html_text, 'html.parser')
 
 # get the column names
