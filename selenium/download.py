@@ -1,57 +1,9 @@
-
-## Import Module
-#import time
-#from selenium import webdriver
-#from selenium.webdriver.common.keys import Keys
-#from selenium.webdriver.chrome.service import Service
-#from webdriver_manager.chrome import ChromeDriverManager
-#from selenium.webdriver.common.by import By
-#
-#from fpdf import FPDF
-#
-## save FPDF() class into
-## a variable pdf
-#pdf = FPDF()
-#
-## Add a page
-#pdf.add_page()
-#  
-## set style and size of font
-## that you want in the pdf
-#pdf.set_font("Arial", size = 15)
-#
-#  
-## Open Chrome
-#driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
-#  
-## Open URL
-#driver.get('http://demo.automationtesting.in/FileDownload.html')
-#  
-## Enter text
-#driver.find_element(By.ID, 'textbox').send_keys("Hello @andvsilva >>> Nice to meet you!")
-#
-## Generate Text File
-#driver.find_element(By.ID, 'createTxt').click()
-#
-#  
-## Click on Download Button
-#driver.find_element(By.ID, 'link-to-download').click()
-#
-#time.sleep(3)
-#
-## open the text file in read mode
-#f = open("/home/andsilva/Downloads/info.txt", "r")
-#
-## insert the texts in pdf
-#for x in f:
-#    pdf.cell(200, 10, txt = x, ln = 1, align = 'C')
-#  
-## save the pdf with name .pdf
-#pdf.output("/home/andsilva/Downloads/mygfg.pdf")
-
 from pydrive.auth import GoogleAuth
 from pydrive.drive import GoogleDrive
+import base64, httplib2
+#from oauth2client.client import SignedJwtAssertionCredentials
 
+#driver = webdriver.Chrome(executable_path="google-chrome")
 
 gauth = GoogleAuth()
 gauth.LocalWebserverAuth() # Creates local webserver and auto handles authentication.
@@ -65,11 +17,21 @@ gauth.LocalWebserverAuth() # Creates local webserver and auto handles authentica
 #
 #drive.CreateFile({'id':file1['id']}).GetContentFile('Hello World!')
 
+#id = "1065790532830-quumamu7ickfeovgdvetli17rh8p3jm5.apps.googleusercontent.com"
+#key = base64.b64decode('COaV9QUlO1OdqtjMiUS6xEI8')
+
+#credentials = SignedJwtAssertionCredentials(id, key, scope='https://www.googleapis.com/auth/drive')
+#credentials.authorize(httplib2.Http())
+
+#gauth = GoogleAuth()
+#gauth.credentials = credentials
+
 drive = GoogleDrive(gauth)
 
 folder_id = '1G9F4oq5H3ZsTR74RdJSXnLKY7kN_CzHn'
 f = drive.CreateFile({'title': 'mygfg.pdf',
                       'mimeType': 'application/pdf',
                       'parents': [{'kind': 'drive#fileLink', 'id':folder_id}]})
-f.SetContentFile('/home/andsilva/Desktop/works/mygfg.pdf')
+f.SetContentFile('/home/andsilva/repo/webscraping/selenium/mygfg.pdf')
 f.Upload()
+
