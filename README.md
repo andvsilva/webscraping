@@ -1,6 +1,6 @@
 ## Whale Alert API
 
-In this API I will focus in analysis data from different blockchain's (BTC, ETH and etc) to look for insights in the crypto market.
+In this API I will focus in data analysisfrom different blockchain's (BTC, ETH and etc) to look for insights in the crypto market.
 
 ### TODO's
 
